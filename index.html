@@ -4,22 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Patrick Creations</title>
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       darkMode: 'class',
     };
   </script>
+
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
   <style>
-    .swiper-button-prev,
-    .swiper-button-next {
-      color: black;
-    }
-    .dark .swiper-button-prev,
-    .dark .swiper-button-next {
-      color: white;
-    }
     .scrollbar-hide::-webkit-scrollbar {
       display: none;
     }
@@ -27,12 +22,58 @@
       -ms-overflow-style: none;
       scrollbar-width: none;
     }
+
     html {
       transition: background-color 0.3s, color 0.3s;
     }
+
+    /* 🌈 Plasma Indicator Styles */
+    .plasma-indicator {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      margin: 0 8px;
+      opacity: 0.5;
+      background: linear-gradient(135deg, #ff00cc, #3333ff);
+      box-shadow: 0 0 10px rgba(255, 0, 204, 0.3);
+      transition: transform 0.3s ease, opacity 0.3s ease, box-shadow 0.4s ease;
+    }
+
+    .plasma-indicator.active {
+      opacity: 1;
+      transform: scale(1.5);
+      animation: pulseGlow 1.2s infinite ease-in-out;
+      box-shadow: 0 0 15px rgba(255, 0, 204, 0.6), 0 0 30px rgba(51, 51, 255, 0.4);
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% {
+        box-shadow: 0 0 15px rgba(255, 0, 204, 0.6), 0 0 30px rgba(51, 51, 255, 0.4);
+      }
+      50% {
+        box-shadow: 0 0 25px rgba(255, 0, 204, 0.8), 0 0 50px rgba(51, 51, 255, 0.6);
+      }
+    }
+
+    .swiper-button-prev,
+    .swiper-button-next {
+      color: black;
+    }
+
+    .dark .swiper-button-prev,
+    .dark .swiper-button-next {
+      color: white;
+    }
   </style>
 </head>
+
 <body class="bg-[#f9f9f6] text-black dark:bg-black dark:text-white overflow-x-hidden transition-colors duration-300">
+  <!-- Custom Swiper Indicator Dots Container -->
+<!-- Plasma Indicator Container -->
+<div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-40 flex gap-2 items-center" id="custom-indicators"></div>
+
+  <!-- Your Swiper and other HTML content goes here -->
+</body>
 
   <!-- 🌗 Theme Toggle Button -->
   <button id="themeToggle" class="fixed top-4 right-4 z-50 p-3 bg-gray-200 dark:bg-gray-800 rounded-full shadow-md transition duration-300">
@@ -228,7 +269,6 @@
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
-  const indicatorColors = ["bg-red-500", "bg-purple-500", "bg-sky-500", "bg-emerald-500"];
   const indicatorContainer = document.getElementById("custom-indicators");
 
   const swiper = new Swiper(".swiper", {
@@ -242,39 +282,54 @@
       prevEl: ".swiper-button-prev",
     },
     on: {
-      init: () => updateIndicators(0),
-      slideChange: () => updateIndicators(swiper.realIndex),
+      init: function () {
+        createPlasmaIndicators(this.slides.length);
+        updatePlasmaIndicators(this.realIndex);
+      },
+      slideChange: function () {
+        updatePlasmaIndicators(this.realIndex);
+      },
     },
   });
 
-  function updateIndicators(index) {
+  function createPlasmaIndicators(slideCount) {
     indicatorContainer.innerHTML = "";
-    const colors = new Array(4).fill(indicatorColors[index]);
-    colors.forEach((color, i) => {
-      const box = document.createElement("div");
-      box.className = `w-24 transition-all duration-300 ${color} rounded-t-full`;
-      if (i === index % 4) {
-        box.classList.add("h-20");
-      } else {
-        box.classList.add("h-12", "opacity-60");
-      }
-      indicatorContainer.appendChild(box);
-    });
+    for (let i = 0; i < slideCount; i++) {
+      const dot = document.createElement("div");
+      dot.className = "plasma-indicator";
+      indicatorContainer.appendChild(dot);
+    }
   }
 
-  // Back to top button visibility
-  const backToTopBtn = document.getElementById("backToTopBtn");
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 300) {
-      backToTopBtn.classList.remove("hidden");
-    } else {
-      backToTopBtn.classList.add("hidden");
+  function updatePlasmaIndicators(activeIndex) {
+    const indicators = indicatorContainer.children;
+    for (let i = 0; i < indicators.length; i++) {
+      indicators[i].classList.toggle("active", i === activeIndex);
     }
-  });
-  backToTopBtn.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+</script>
+
+<!-- Back to top button visibility -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const backToTopBtn = document.getElementById("backToTopBtn");
+
+    if (!backToTopBtn) return;
+
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 300) {
+        backToTopBtn.classList.remove("hidden");
+      } else {
+        backToTopBtn.classList.add("hidden");
+      }
+    });
+
+    backToTopBtn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
   });
 </script>
+
 
 <!-- Theme Toggle Script -->
 <script>
