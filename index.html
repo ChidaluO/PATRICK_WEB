@@ -27,7 +27,7 @@
       transition: background-color 0.3s, color 0.3s;
     }
 
-    /* 🌈 Plasma Indicator Styles */
+    /* Plasma Indicator Styles */
     .plasma-indicator {
       width: 20px;
       height: 20px;
@@ -64,41 +64,188 @@
     .dark .swiper-button-next {
       color: white;
     }
+
+    /* NEW: Proper Dropdown Styles */
+    .dropdown-container {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 50;
+    }
+
+    .dropdown-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.25rem;
+      background-color: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 0.5rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      font-weight: 500;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .dark .dropdown-btn {
+      background-color: rgba(31, 41, 55, 0.9);
+      border-color: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    .dropdown-btn:hover {
+      background-color: rgba(255, 255, 255, 1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .dark .dropdown-btn:hover {
+      background-color: rgba(17, 24, 39, 1);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      left: 0;
+      top: 100%;
+      margin-top: 0.5rem;
+      min-width: 200px;
+      background-color: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(-10px);
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 100;
+    }
+
+    .dropdown-container:hover .dropdown-menu {
+      opacity: 1;
+      transform: translateY(0);
+      visibility: visible;
+    }
+
+    .dark .dropdown-menu {
+      background-color: #1f2937;
+      border-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .dropdown-item {
+      display: block;
+      padding: 0.75rem 1.25rem;
+      color: #333;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      position: relative;
+      border-bottom: 1px dotted rgba(0, 0, 0, 0.1);
+    }
+
+    .dark .dropdown-item {
+      color: #f3f4f6;
+      border-bottom-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .dropdown-item:last-child {
+      border-bottom: none;
+    }
+
+    .dropdown-item:hover {
+      background-color: #f9fafb;
+      padding-left: 1.5rem;
+    }
+
+    .dark .dropdown-item:hover {
+      background-color: #374151;
+    }
+
+    .dropdown-item:hover::after {
+      content: "";
+      position: absolute;
+      left: 1rem;
+      right: 1rem;
+      bottom: 0;
+      height: 1px;
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .dark .dropdown-item:hover::after {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .coffee-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.25rem;
+      color: #333;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border-top: 1px dotted rgba(0, 0, 0, 0.1);
+    }
+
+    .dark .coffee-item {
+      color: #f3f4f6;
+      border-top-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .coffee-item:hover {
+      background-color: #f9fafb;
+    }
+
+    .dark .coffee-item:hover {
+      background-color: #374151;
+    }
+
+    .coffee-item:hover .coffee-emoji {
+      transform: scale(1.1);
+    }
+
+    .coffee-emoji {
+      transition: transform 0.2s ease;
+    }
   </style>
 </head>
 
 <body class="bg-[#f9f9f6] text-black dark:bg-black dark:text-white overflow-x-hidden transition-colors duration-300">
-  <!-- Custom Swiper Indicator Dots Container -->
-<!-- Plasma Indicator Container -->
-<div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-40 flex gap-2 items-center" id="custom-indicators"></div>
+  <!-- Plasma Indicator Container -->
+  <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-40 flex gap-2 items-center" id="custom-indicators"></div>
 
-  <!-- Your Swiper and other HTML content goes here -->
-</body>
+  <!-- NEW: Proper Dropdown Menu -->
+  <div class="dropdown-container">
+    <button class="dropdown-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
+      </svg>
+      Menu
+    </button>
+    <div class="dropdown-menu">
+      <a href="about.html" class="dropdown-item">About</a>
+      <a href="#" class="dropdown-item">Contact</a>
+      <a href="#" class="dropdown-item">The Wall</a>
+      <div class="coffee-item">
+        <span class="coffee-emoji">☕</span>
+        <span>Buy us coffee</span>
+      </div>
+    </div>
+  </div>
 
-  <!-- 🌗 Theme Toggle Button -->
+  <!-- Theme Toggle Button -->
   <button id="themeToggle" class="fixed top-4 right-4 z-50 p-3 bg-gray-200 dark:bg-gray-800 rounded-full shadow-md transition duration-300">
     <span id="themeIcon">🌙</span>
   </button>
 
-  <!-- 🌄 Carousel Section -->
+  <!-- Carousel Section -->
   <section class="h-screen w-full relative overflow-hidden">
     <div class="absolute top-6 left-1/2 -translate-x-1/2 z-50">
       <img src="https://i.imgur.com/xvqBrl0.png" alt="Company Logo" class="h-28 md:h-40 object-contain" />
     </div>
     <div class="swiper-container swiper h-full">
       <div class="swiper-wrapper">
-        <div class="swiper-slide flex items-center justify-center bg-cover bg-center" style="background-image: url('https://i.imgur.com/47E6FfU.png');">
-          
-        </div>
-        <div class="swiper-slide flex items-center justify-center bg-cover bg-center" style="background-image: url('https://i.imgur.com/7LgyCok.png');">
-          
-        </div>
-        <div class="swiper-slide flex items-center justify-center bg-cover bg-center" style="background-image: url('https://i.imgur.com/47E6FfU.png');">
-      
-        </div>
-        <div class="swiper-slide flex items-center justify-center bg-cover bg-center" style="background-image: url('https://i.imgur.com/7LgyCok.png');">
-          
-        </div>
+        <div class="swiper-slide flex items-center justify-center bg-cover bg-center" style="background-image: url('https://i.imgur.com/47E6FfU.png');"></div>
+        <div class="swiper-slide flex items-center justify-center bg-cover bg-center" style="background-image: url('https://i.imgur.com/7LgyCok.png');"></div>
+        <div class="swiper-slide flex items-center justify-center bg-cover bg-center" style="background-image: url('https://i.imgur.com/47E6FfU.png');"></div>
+        <div class="swiper-slide flex items-center justify-center bg-cover bg-center" style="background-image: url('https://i.imgur.com/7LgyCok.png');"></div>
       </div>
       <div class="swiper-button-next"></div>
       <div class="swiper-button-prev"></div>
@@ -106,7 +253,7 @@
     <div class="absolute bottom-0 left-1/2 -translate-x-1/2 z-40 px-6 bg-transparent flex gap-6 items-end" id="custom-indicators"></div>
   </section>
 
-  <!-- 🎨 MAKE ART Section -->
+  <!-- MAKE ART Section -->
   <div class="flex h-[300px] w-full bg-[#f9f9f6] dark:bg-black text-black dark:text-white overflow-hidden transition-colors duration-300">
     <div class="w-[60%] flex items-center justify-center p-4">
       <h1 id="scramble-text" class="text-4xl font-bold text-center">MAKE ART</h1>
@@ -144,217 +291,235 @@
     setInterval(scrambleText, 150);
   </script>
 
-  <!-- 🎬 Movies Section -->
-  <section class="w-full px-6 md:px-20 py-12 bg-[#f9f9f6] text-black dark:bg-black dark:text-white space-y-6 transition-colors duration-500">
-    <h2 class="text-2xl md:text-4xl font-bold">Movies</h2>
-    <div class="overflow-x-auto scrollbar-hide">
-      <div class="flex gap-6 w-max">
-        <!-- Movie Cards -->
-        <div class="relative w-60 aspect-[3/4] bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden group transition-colors">
+  <!-- Movies Section -->
+<section class="w-full px-6 md:px-20 py-12 bg-[#f9f9f6] text-black dark:bg-black dark:text-white space-y-6 transition-colors duration-500">
+  <h2 class="text-2xl md:text-4xl font-bold">Movies</h2>
+  <div class="overflow-x-auto scrollbar-hide">
+    <div class="flex gap-6 w-max">
+
+      <a href="tbb.html" class="group">
+        <div class="relative w-60 aspect-[3/4] bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden transition-colors">
           <img src="https://source.unsplash.com/random/300x400?film" class="w-full h-full object-cover" alt="The Brilliant Boy Poster"/>
           <div class="absolute inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center opacity-100 group-hover:opacity-0 transition duration-300">
             <p class="text-white text-lg font-semibold text-center">The Brilliant Boy</p>
           </div>
         </div>
-        <div class="relative w-60 aspect-[3/4] bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden group transition-colors">
+      </a>
+
+      <a href="alone.html" class="group">
+        <div class="relative w-60 aspect-[3/4] bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden transition-colors">
           <img src="https://source.unsplash.com/random/300x400?cinema" class="w-full h-full object-cover" alt="Alone Poster"/>
           <div class="absolute inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center opacity-100 group-hover:opacity-0 transition duration-300">
             <p class="text-white text-lg font-semibold text-center">Alone</p>
           </div>
         </div>
-        <div class="relative w-60 aspect-[3/4] bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden group transition-colors">
+      </a>
+
+      <a href="movies.html" class="group">
+        <div class="relative w-60 aspect-[3/4] bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden transition-colors">
           <img src="https://source.unsplash.com/random/300x400?vintage" class="w-full h-full object-cover" alt="Procrastination Poster"/>
           <div class="absolute inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center opacity-100 group-hover:opacity-0 transition duration-300">
             <p class="text-white text-lg font-semibold text-center">Procrastination</p>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
+      </a>
 
-  <div class="w-full flex justify-center">
-    <div class="h-2 w-full max-w-[calc(100%-160px)] bg-black/10 dark:bg-white/10 rounded-full transition-colors duration-300"></div>
-  </div>
-
-  <!-- 📰 News Section -->
-  <section class="w-full px-6 md:px-20 py-12 bg-[#f9f9f6] text-black dark:bg-black dark:text-white space-y-6 transition-colors duration-500">
-    <h2 class="text-2xl md:text-4xl font-bold">News</h2>
-    <div class="overflow-x-auto scrollbar-hide">
-      <div class="flex gap-6 w-max">
-        <div class="relative w-60 aspect-[3/4] bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden group">
-          <img src="https://source.unsplash.com/random/300x400?drama" class="w-full h-full object-cover" alt="News: Website Launch"/>
-          <div class="absolute inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center opacity-100 group-hover:opacity-0 transition duration-300">
-            <p class="text-white text-lg font-semibold text-center">New Website Launch</p>
-          </div>
-        </div>
-        <div class="relative w-60 aspect-[3/4] bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden group">
-          <img src="https://source.unsplash.com/random/300x400?action" class="w-full h-full object-cover" alt="News: New Film"/>
-          <div class="absolute inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center opacity-100 group-hover:opacity-0 transition duration-300">
-            <p class="text-white text-lg font-semibold text-center">Emmanuel Patrick Announces New Film</p>
-          </div>
-        </div>
-        <div class="relative w-60 aspect-[3/4] bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden group">
-          <img src="https://source.unsplash.com/random/300x400?romance" class="w-full h-full object-cover" alt="News: Patrick Creations Success"/>
-          <div class="absolute inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center opacity-100 group-hover:opacity-0 transition duration-300">
-            <p class="text-white text-lg font-semibold text-center">Patrick Creations Hits an All-Time High</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="w-full flex justify-center">
-    <div class="h-2 w-full max-w-[calc(100%-160px)] bg-black/10 dark:bg-white/10 rounded-full transition-colors duration-300"></div>
-  </div>
-<!-- Events Section -->
-<section class="w-full px-6 md:px-20 py-12 bg-[#f5f5f5] text-black dark:bg-black dark:text-white space-y-6 transition-colors duration-500">
-  <h2 class="text-2xl md:text-4xl font-bold">Events</h2>
-  <div class="overflow-x-auto scrollbar-hide">
-    <div class="flex gap-6 w-max">
-      <!-- Event Card -->
-      <div class="relative w-60 aspect-[3/4] bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden group">
-        <img src="https://source.unsplash.com/random/300x400?trending" class="w-full h-full object-cover" alt="Event: Poster Contest" />
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center opacity-100 group-hover:opacity-0 transition duration-300">
-          <p class="text-white text-lg font-semibold text-center">Poster Contest!!</p>
-        </div>
-      </div>
-      <div class="relative w-60 aspect-[3/4] bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden group">
-        <img src="https://source.unsplash.com/random/300x400?popular" class="w-full h-full object-cover" alt="Event: Giveaway" />
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center opacity-100 group-hover:opacity-0 transition duration-300">
-          <p class="text-white text-lg font-semibold text-center">Random Subscriber Giveaway</p>
-        </div>
-      </div>
-      <div class="relative w-60 aspect-[3/4] bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden group">
-        <img src="https://source.unsplash.com/random/300x400?entertainment" class="w-full h-full object-cover" alt="Event: Watch Story" />
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center opacity-100 group-hover:opacity-0 transition duration-300">
-          <p class="text-white text-lg font-semibold text-center">Watch Your Story</p>
-        </div>
-      </div>
     </div>
   </div>
 </section>
 
-<!-- Divider -->
-<div class="w-full flex justify-center">
-  <div class="h-2 w-full max-w-[calc(100%-160px)] bg-black/10 dark:bg-white/10 rounded-full transition-colors duration-300"></div>
-</div>
 
-<!-- Footer -->
-<footer class="w-full bg-[#f5f5f5] text-black dark:bg-black dark:text-white text-center px-6 py-10 transition-colors duration-500">
-  <div class="flex justify-center mb-4">
-    <img src="https://i.imgur.com/xvqBrl0.png" alt="Company Logo" class="h-16 md:h-20 object-contain" />
+  <div class="w-full flex justify-center">
+    <div class="h-2 w-full max-w-[calc(100%-160px)] bg-black/10 dark:bg-white/10 rounded-full transition-colors duration-300"></div>
   </div>
-  <p class="text-xl font-bold mb-2">Patrick Creations</p>
-  <p class="text-sm text-gray-600 dark:text-gray-300 mb-2">
-    Contact:
-    <a href="mailto:emmanuelowochiopatrick@gmail.com" class="underline">emmanuelowochiopatrick@gmail.com</a> &nbsp;|&nbsp;
-    <a href="tel:+2348163696389" class="underline">+234 816 369 6389</a>
-  </p>
-  <div class="flex justify-center gap-6 mb-2">
-    <!-- Social Icons -->
-    <!-- (Icons unchanged for brevity) -->
+
+  <!-- News Section -->
+<section class="w-full px-6 md:px-20 py-12 bg-[#f9f9f6] text-black dark:bg-black dark:text-white space-y-6 transition-colors duration-500">
+  <h2 class="text-2xl md:text-4xl font-bold">News</h2>
+  <div class="overflow-x-auto scrollbar-hide">
+    <div class="flex gap-6 w-max">
+
+      <!-- News Card 1 -->
+      <a href="https://thenollywoodreporter.com/news/the-brilliant-boy-triumphs-at-lift-off-global-network/" target="_blank" rel="noopener noreferrer">
+        <div class="group relative w-60 aspect-[3/4] bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden transition-colors">
+          <img src="https://i.imgur.com/drVM0Qy.jpeg" class="w-full h-full object-cover" alt="News: Website Launch" />
+          <div class="absolute inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center opacity-100 group-hover:opacity-0 transition duration-300">
+            <p class="text-white text-lg font-semibold text-center">New Website Launch</p>
+          </div>
+        </div>
+      </a>
+
+      <!-- News Card 2 -->
+      <a href="https://guardian.ng/life/film/nigerian-short-film-the-brilliant-boy-wins-global-awards/" target="_blank" rel="noopener noreferrer">
+        <div class="group relative w-60 aspect-[3/4] bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden transition-colors">
+          <img src="https://i.imgur.com/S9gWSoZ.png" class="w-full h-full object-cover" alt="News: New Film" />
+          <div class="absolute inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center opacity-100 group-hover:opacity-0 transition duration-300">
+            <p class="text-white text-lg font-semibold text-center">Emmanuel Patrick Announces New Film</p>
+          </div>
+        </div>
+      </a>
+
+      <!-- News Card 3 -->
+      <a href="https://www.qed.ng/the-brilliant-boy-wins-big-at-lift-off-global-network/" target="_blank" rel="noopener noreferrer">
+        <div class="group relative w-60 aspect-[3/4] bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden transition-colors">
+          <img src="https://i.imgur.com/4S993Es.jpeg" class="w-full h-full object-cover" alt="News: Patrick Creations Success" />
+          <div class="absolute inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center opacity-100 group-hover:opacity-0 transition duration-300">
+            <p class="text-white text-lg font-semibold text-center">Patrick Creations Hits an All-Time High</p>
+          </div>
+        </div>
+      </a>
+
+    </div>
   </div>
-  <p class="font-semibold text-sm mt-2">Another Patrick Creation</p>
-  <p class="text-xs text-gray-500 dark:text-gray-400">Emmanuel Patrick, Muneer Abdulkadir, Chidalu Okeke</p>
-  <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">&copy; 2025 Patrick Creations. All rights reserved.</p>
-</footer>
-
-<!-- Back to Top -->
-<button id="backToTopBtn"
-  class="fixed bottom-6 right-6 z-50 hidden p-3 rounded-full bg-black text-white dark:bg-white dark:text-black shadow-md hover:scale-110 transition-all duration-300">
-  ↑
-</button>
+</section>
 
 
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script>
-  const indicatorContainer = document.getElementById("custom-indicators");
+  <div class="w-full flex justify-center">
+    <div class="h-2 w-full max-w-[calc(100%-160px)] bg-black/10 dark:bg-white/10 rounded-full transition-colors duration-300"></div>
+  </div>
 
-  const swiper = new Swiper(".swiper", {
-    loop: false,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false,
-    },
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
-    },
-    on: {
-      init: function () {
-        createPlasmaIndicators(this.slides.length);
-        updatePlasmaIndicators(this.realIndex);
+  <!-- Events Section -->
+  <section class="w-full px-6 md:px-20 py-12 bg-[#f5f5f5] text-black dark:bg-black dark:text-white space-y-6 transition-colors duration-500">
+    <h2 class="text-2xl md:text-4xl font-bold">Events</h2>
+    <div class="overflow-x-auto scrollbar-hide">
+      <div class="flex gap-6 w-max">
+        <div class="relative w-60 aspect-[3/4] bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden group">
+          <img src="https://source.unsplash.com/random/300x400?trending" class="w-full h-full object-cover" alt="Event: Poster Contest" />
+          <div class="absolute inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center opacity-100 group-hover:opacity-0 transition duration-300">
+            <p class="text-white text-lg font-semibold text-center">Poster Contest!!</p>
+          </div>
+        </div>
+        <div class="relative w-60 aspect-[3/4] bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden group">
+          <img src="https://source.unsplash.com/random/300x400?popular" class="w-full h-full object-cover" alt="Event: Giveaway" />
+          <div class="absolute inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center opacity-100 group-hover:opacity-0 transition duration-300">
+            <p class="text-white text-lg font-semibold text-center">Random Subscriber Giveaway</p>
+          </div>
+        </div>
+        <div class="relative w-60 aspect-[3/4] bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden group">
+          <img src="https://source.unsplash.com/random/300x400?entertainment" class="w-full h-full object-cover" alt="Event: Watch Story" />
+          <div class="absolute inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center opacity-100 group-hover:opacity-0 transition duration-300">
+            <p class="text-white text-lg font-semibold text-center">Watch Your Story</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="w-full flex justify-center">
+    <div class="h-2 w-full max-w-[calc(100%-160px)] bg-black/10 dark:bg-white/10 rounded-full transition-colors duration-300"></div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="w-full bg-[#f5f5f5] text-black dark:bg-black dark:text-white text-center px-6 py-10 transition-colors duration-500">
+    <div class="flex justify-center mb-4">
+      <img src="https://i.imgur.com/xvqBrl0.png" alt="Company Logo" class="h-16 md:h-20 object-contain" />
+    </div>
+    <p class="text-xl font-bold mb-2">Patrick Creations</p>
+    <p class="text-sm text-gray-600 dark:text-gray-300 mb-2">
+      Contact:
+      <a href="mailto:emmanuelowochiopatrick@gmail.com" class="underline">emmanuelowochiopatrick@gmail.com</a> &nbsp;|&nbsp;
+      <a href="tel:+2348163696389" class="underline">+234 816 369 6389</a>
+    </p>
+    <div class="flex justify-center gap-6 mb-2">
+      <!-- Social Icons -->
+    </div>
+    <p class="font-semibold text-sm mt-2">Another Patrick Creation</p>
+    <p class="text-xs text-gray-500 dark:text-gray-400">Emmanuel Patrick, Muneer Abdulkadir, Chidalu Okeke</p>
+    <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">&copy; 2025 Patrick Creations. All rights reserved.</p>
+  </footer>
+
+  <!-- Back to Top -->
+  <button id="backToTopBtn"
+    class="fixed bottom-6 right-6 z-50 hidden p-3 rounded-full bg-black text-white dark:bg-white dark:text-black shadow-md hover:scale-110 transition-all duration-300">
+    ↑
+  </button>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script>
+    const indicatorContainer = document.getElementById("custom-indicators");
+
+    const swiper = new Swiper(".swiper", {
+      loop: false,
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
       },
-      slideChange: function () {
-        updatePlasmaIndicators(this.realIndex);
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
       },
-    },
-  });
+      on: {
+        init: function () {
+          createPlasmaIndicators(this.slides.length);
+          updatePlasmaIndicators(this.realIndex);
+        },
+        slideChange: function () {
+          updatePlasmaIndicators(this.realIndex);
+        },
+      },
+    });
 
-  function createPlasmaIndicators(slideCount) {
-    indicatorContainer.innerHTML = "";
-    for (let i = 0; i < slideCount; i++) {
-      const dot = document.createElement("div");
-      dot.className = "plasma-indicator";
-      indicatorContainer.appendChild(dot);
+    function createPlasmaIndicators(slideCount) {
+      indicatorContainer.innerHTML = "";
+      for (let i = 0; i < slideCount; i++) {
+        const dot = document.createElement("div");
+        dot.className = "plasma-indicator";
+        indicatorContainer.appendChild(dot);
+      }
     }
-  }
 
-  function updatePlasmaIndicators(activeIndex) {
-    const indicators = indicatorContainer.children;
-    for (let i = 0; i < indicators.length; i++) {
-      indicators[i].classList.toggle("active", i === activeIndex);
+    function updatePlasmaIndicators(activeIndex) {
+      const indicators = indicatorContainer.children;
+      for (let i = 0; i < indicators.length; i++) {
+        indicators[i].classList.toggle("active", i === activeIndex);
+      }
     }
-  }
-</script>
 
-<!-- Back to top button visibility -->
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const backToTopBtn = document.getElementById("backToTopBtn");
+    // Back to top button visibility
+    document.addEventListener("DOMContentLoaded", () => {
+      const backToTopBtn = document.getElementById("backToTopBtn");
 
-    if (!backToTopBtn) return;
+      if (!backToTopBtn) return;
 
-    window.addEventListener("scroll", () => {
-      if (window.scrollY > 300) {
-        backToTopBtn.classList.remove("hidden");
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 300) {
+          backToTopBtn.classList.remove("hidden");
+        } else {
+          backToTopBtn.classList.add("hidden");
+        }
+      });
+
+      backToTopBtn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    });
+
+    // Theme Toggle Script
+    const toggleBtn = document.getElementById('themeToggle');
+    const icon = document.getElementById('themeIcon');
+    const root = document.documentElement;
+
+    // Set initial theme
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      root.classList.add('dark');
+      icon.textContent = '☀️';
+    } else {
+      icon.textContent = '🌙';
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      if (root.classList.contains('dark')) {
+        root.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+        icon.textContent = '🌙';
       } else {
-        backToTopBtn.classList.add("hidden");
+        root.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+        icon.textContent = '☀️';
       }
     });
-
-    backToTopBtn.addEventListener("click", () => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-  });
-</script>
-
-
-<!-- Theme Toggle Script -->
-<script>
-  const toggleBtn = document.getElementById('themeToggle');
-  const icon = document.getElementById('themeIcon');
-  const root = document.documentElement;
-
-  // Set initial theme
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme === 'dark') {
-    root.classList.add('dark');
-    icon.textContent = '☀️';
-  } else {
-    icon.textContent = '🌙';
-  }
-
-  toggleBtn.addEventListener('click', () => {
-    if (root.classList.contains('dark')) {
-      root.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-      icon.textContent = '🌙';
-    } else {
-      root.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-      icon.textContent = '☀️';
-    }
-  });
-</script>
+  </script>
+</body>
+</html>
