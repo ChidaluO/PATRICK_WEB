@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us | Patrick Creations</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+    };
+  </script>
+  <style>
+    @keyframes wordChange {
+      0%, 20% { content: "Bold"; }
+      25%, 45% { content: "Creative"; }
+      50%, 70% { content: "Symbolic"; }
+      75%, 100% { content: "Different"; }
+    }
+
+    .changing-word::after {
+      content: "Bold";
+      animation: wordChange 8s infinite ease-in-out;
+      display: inline-block;
+      margin-left: 0.4rem;
+    }
+
+    /* Smooth transitions for dark mode */
+    html, body, section, footer {
+      transition: background-color 0.6s ease, color 0.6s ease;
+    }
+
+    /* Scroll down arrow */
+    .scroll-down-arrow {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 30px;
+      height: 30px;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      animation: bounce 2s infinite;
+      z-index: 100;
+    }
+    
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-10px);
+      }
+      60% {
+        transform: translateY(-5px);
+      }
+    }
+    
+    /* Dropdown styles */
+    .dropdown-container {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 50;
+    }
+
+    .dropdown-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.25rem;
+      background-color: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 0.5rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      font-weight: 500;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .dark .dropdown-btn {
+      background-color: rgba(31, 41, 55, 0.9);
+      border-color: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    .dropdown-btn:hover {
+      background-color: rgba(255, 255, 255, 1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .dark .dropdown-btn:hover {
+      background-color: rgba(17, 24, 39, 1);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      left: 0;
+      top: 100%;
+      margin-top: 0.5rem;
+      min-width: 200px;
+      background-color: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(-10px);
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 100;
+    }
+
+    .dropdown-container:hover .dropdown-menu {
+      opacity: 1;
+      transform: translateY(0);
+      visibility: visible;
+    }
+
+    .dark .dropdown-menu {
+      background-color: #1f2937;
+      border-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .dropdown-item {
+      display: block;
+      padding: 0.75rem 1.25rem;
+      color: #333;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      position: relative;
+      border-bottom: 1px dotted rgba(0, 0, 0, 0.1);
+    }
+
+    .dark .dropdown-item {
+      color: #f3f4f6;
+      border-bottom-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .dropdown-item:last-child {
+      border-bottom: none;
+    }
+
+    .dropdown-item:hover {
+      background-color: #f9fafb;
+      padding-left: 1.5rem;
+    }
+
+    .dark .dropdown-item:hover {
+      background-color: #374151;
+    }
+
+    /* Scroll-triggered images */
+    .scroll-image {
+      position: absolute;
+      width: 200px;
+      height: 300px;
+      object-fit: cover;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      z-index: 10;
+      border-radius: 8px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .dark .scroll-image {
+      box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
+    }
+
+    .scroll-image.visible {
+      opacity: 0.9;
+      transform: translateY(0);
+    }
+
+    /* Section backgrounds */
+    .section-light {
+      background-color: white;
+      color: black;
+    }
+
+    .dark .section-light {
+      background-color: black;
+      color: white;
+    }
+
+    .section-dark {
+      background-color: black;
+      color: white;
+    }
+
+    .dark .section-dark {
+      background-color: white;
+      color: black;
+    }
+  </style>
+</head>
+
+<body class="bg-white text-black dark:bg-black dark:text-white font-sans leading-relaxed tracking-wide">
+  <!-- Menu Dropdown -->
+  <div class="dropdown-container">
+    <button class="dropdown-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
+      </svg>
+      Menu
+    </button>
+    <div class="dropdown-menu">
+      <a href="index.html" class="dropdown-item">Home</a>
+      <a href="#" class="dropdown-item">Contact</a>
+      <a href="#" class="dropdown-item">The Wall</a>
+      <div class="coffee-item">
+        <span class="coffee-emoji">☕</span>
+        <span>Buy us coffee</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Theme Toggle Button -->
+  <button id="themeToggle" class="fixed top-4 right-4 z-50 p-3 bg-gray-200 dark:bg-gray-800 rounded-full shadow-md transition duration-300">
+    <span id="themeIcon">🌙</span>
+  </button>
+
+  <!-- Scroll down arrow -->
+  <div class="scroll-down-arrow">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <!-- Hero -->
+  <section class="min-h-screen flex items-center justify-center text-center px-6 md:px-16 section-dark relative">
+    <div>
+      <h1 class="text-4xl md:text-6xl font-bold uppercase">
+        WE ARE <span class="changing-word font-black"></span>
+      </h1>
+      <p class="mt-4 text-lg md:text-xl max-w-2xl mx-auto opacity-70">
+        Patrick Creations exists beyond the frame. We believe stories should challenge, question, and transcend the moment. This isn't just a company. It's a movement.
+      </p>
+    </div>
+  </section>
+
+  <!-- Welcome Address -->
+  <section class="py-32 px-6 md:px-16 section-light relative">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-3xl md:text-4xl font-bold uppercase">Founder's Welcome</h2>
+      <p class="mt-6 text-lg leading-relaxed">
+        Welcome to Patrick Creations.  
+        This is not a traditional film house. This is where vision, heart, rebellion, and grace all sit in the same room.  
+        If you're here, you're meant to be here.  
+        We don't chase trends. We make culture. We reflect the soul.  
+        Thank you for stepping inside our world.
+      </p>
+      <p class="mt-8 text-right italic">— Patrick</p>
+    </div>
+    <!-- First scroll image -->
+    <img src="https://i.imgur.com/47E6FfU.png" class="scroll-image" style="right: 5%; top: 20%; transform: rotate(5deg);" data-scroll-trigger="300">
+  </section>
+
+  <!-- About the Company -->
+  <section class="py-32 px-6 md:px-16 section-dark relative">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-3xl md:text-4xl font-bold uppercase text-center">The Company</h2>
+      <p class="mt-6 text-lg leading-loose text-gray-300 dark:text-gray-700 text-center">
+        Patrick Creations is a story studio.  
+        A home for bold films, abstract thoughts, and emotionally charged narratives.  
+        Our work is rooted in clarity — clarity that breaks down the fog walls of modern life.  
+        Every project, whether 30 seconds or 3 hours, is handcrafted. Purposeful. Raw.  
+        We're not here to fit in. We're here to shake something loose in you.
+      </p>
+    </div>
+    <!-- Second scroll image -->
+    <img src="https://i.imgur.com/7LgyCok.png" class="scroll-image" style="left: 5%; top: 30%; transform: rotate(-5deg);" data-scroll-trigger="800">
+  </section>
+
+  <!-- About the Founder -->
+  <section class="py-32 px-6 md:px-16 section-light relative">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-3xl md:text-4xl font-bold uppercase text-center">The Founder</h2>
+      <div class="mt-6 text-lg leading-relaxed space-y-4 text-center">
+        <p>Patrick is an artist. A filmmaker. A storyteller obsessed with depth, silence, and soul.</p>
+        <p>He founded Patrick Creations to build stories from scratch. Not safe stories — but necessary ones.</p>
+        <p>Inspired by the likes of Basquiat, Fincher, Chazelle, and truth itself, Patrick's work blends raw feeling with distinct visual identity. He's not just making art — he's building a language.</p>
+      </div>
+    </div>
+    <!-- Third scroll image -->
+    <img src="https://i.imgur.com/drVM0Qy.jpeg" class="scroll-image" style="right: 8%; top: 40%; transform: rotate(8deg);" data-scroll-trigger="500">
+  </section>
+
+  <!-- Footer -->
+  <section class="py-20 section-dark relative">
+    <div class="text-center text-sm opacity-60">
+      © Patrick Creations. Built from the Vision.
+    </div>
+    <!-- Fourth scroll image -->
+    <img src="https://i.imgur.com/xvqBrl0.png" class="scroll-image" style="left: 10%; top: 20%; transform: rotate(-8deg);" data-scroll-trigger="200">
+  </section>
+
+  <script>
+    // Theme Toggle Script
+    const toggleBtn = document.getElementById('themeToggle');
+    const icon = document.getElementById('themeIcon');
+    const root = document.documentElement;
+
+    // Set initial theme
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      root.classList.add('dark');
+      icon.textContent = '☀️';
+    } else {
+      icon.textContent = '🌙';
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      if (root.classList.contains('dark')) {
+        root.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+        icon.textContent = '🌙';
+      } else {
+        root.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+        icon.textContent = '☀️';
+      }
+    });
+
+    // Scroll down arrow functionality
+    document.addEventListener('DOMContentLoaded', () => {
+      const scrollArrow = document.querySelector('.scroll-down-arrow');
+      
+      // Show arrow after 2 seconds
+      setTimeout(() => {
+        scrollArrow.style.opacity = '1';
+      }, 2000);
+      
+      // Hide arrow when user scrolls down
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 100) {
+          scrollArrow.style.opacity = '0';
+        } else {
+          scrollArrow.style.opacity = '1';
+        }
+        
+        // Trigger image animations
+        animateScrollImages();
+      });
+      
+      // Scroll to next section when arrow is clicked
+      scrollArrow.addEventListener('click', () => {
+        window.scrollBy({
+          top: window.innerHeight,
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // Scroll-triggered image animations
+    function animateScrollImages() {
+      const scrollImages = document.querySelectorAll('.scroll-image');
+      const scrollPosition = window.scrollY + window.innerHeight;
+      
+      scrollImages.forEach(img => {
+        const triggerOffset = parseInt(img.dataset.scrollTrigger) || 200;
+        const imgPosition = img.offsetTop;
+        
+        if (scrollPosition > imgPosition + triggerOffset) {
+          img.classList.add('visible');
+        } else {
+          img.classList.remove('visible');
+        }
+      });
+    }
+
+    // Initialize scroll images on load
+    window.addEventListener('load', animateScrollImages);
+  </script>
+</body>
+</html>

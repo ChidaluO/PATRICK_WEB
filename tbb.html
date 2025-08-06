@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movie Page</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #000000;
+      --border: #000000;
+      --button-bg: #ffffff;
+      --button-text: #000000;
+      --button-border: #000000;
+      --footer-bg: #f5f5f5;
+      --footer-text: #000000;
+      --footer-secondary: #666666;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      padding: 2rem 0;
+    }
+
+    header a {
+      text-decoration: none;
+    }
+
+    /* Content Container */
+    .content-container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      flex: 1;
+    }
+
+    /* Stills */
+    .stills {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      padding: 1rem 0 2rem;
+    }
+
+    .still {
+      width: 200px;
+      height: 120px;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .still:hover {
+      transform: scale(1.05);
+    }
+
+    /* Hero */
+    .hero {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #e0e0e0; /* Placeholder for your image */
+      position: relative;
+      margin-bottom: 2rem;
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 0.6rem 1.2rem;
+      background: var(--button-bg);
+      border: 1px solid var(--button-border);
+      color: var(--button-text);
+      cursor: pointer;
+      border-radius: 25px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    .btn-outline {
+      background: transparent;
+    }
+
+    .trailer-btn {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+    }
+
+    /* Info Section */
+    .info-section {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .info-left {
+      flex: 1;
+    }
+
+    .info-right {
+      flex: 1;
+    }
+
+    .synopsis {
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .full-synopsis {
+      display: none;
+      margin-top: 0.5rem;
+    }
+
+    .expand-btn {
+      color: var(--text);
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .credits {
+      margin-top: 1.5rem;
+      text-align: right;
+    }
+
+    .credits h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    .credits p {
+      margin: 0.3rem 0;
+    }
+
+    .cast-list {
+      list-style-type: none;
+      padding: 0;
+      margin: 1rem 0 0 0;
+    }
+
+    .cast-list li {
+      margin-bottom: 0.5rem;
+    }
+
+    /* Two Column Section */
+    .two-column {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 3rem;
+      align-items: center;
+    }
+
+    .column-left {
+      flex: 1;
+    }
+
+    .column-right {
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .experience-btn {
+      padding: 0.6rem 2rem;
+      height: fit-content;
+    }
+
+    .experience-btn:hover {
+      transform: scale(1.05);
+    }
+
+    /* Carousel */
+    .carousel {
+      position: relative;
+      width: 100%;
+      height: 250px;
+    }
+
+    .actor {
+      width: 120px;
+      height: 180px;
+      object-fit: cover;
+      position: absolute;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border-radius: 4px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .actor.active {
+      z-index: 3;
+      transform: scale(1.2);
+      left: 50%;
+      margin-left: -60px;
+    }
+
+    .actor.prev {
+      z-index: 2;
+      transform: scale(0.9);
+      left: 20%;
+      margin-left: -60px;
+      opacity: 0.8;
+    }
+
+    .actor.next {
+      z-index: 2;
+      transform: scale(0.9);
+      left: 80%;
+      margin-left: -60px;
+      opacity: 0.8;
+    }
+
+    /* Footer */
+    footer {
+      width: 100%;
+      background: var(--footer-bg);
+      color: var(--footer-text);
+      text-align: center;
+      padding: 2rem 1rem;
+      margin-top: auto;
+    }
+
+    .footer-logo {
+      height: 4rem;
+      object-fit: contain;
+      margin-bottom: 1rem;
+    }
+
+    .footer-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-contact {
+      font-size: 0.875rem;
+      color: var(--footer-secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-contact a {
+      color: inherit;
+      text-decoration: underline;
+    }
+
+    .footer-social {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-tagline {
+      font-weight: 600;
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+    }
+
+    .footer-credits {
+      font-size: 0.75rem;
+      color: var(--footer-secondary);
+      margin-top: 0.25rem;
+    }
+
+    .footer-copyright {
+      font-size: 0.75rem;
+      color: var(--footer-secondary);
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html"><img src="https://i.imgur.com/xvqBrl0.png" alt="Logo" width="150"></a>
+  </header>
+
+  <div class="content-container">
+    <div class="stills">
+      <img src="still1.jpg" class="still" alt="Movie still 1">
+      <img src="still2.jpg" class="still" alt="Movie still 2">
+      <img src="still3.jpg" class="still" alt="Movie still 3">
+    </div>
+
+    <div class="hero">
+      <button class="btn trailer-btn">Watch Trailer</button>
+    </div>
+
+    <div class="info-section">
+      <div class="info-left">
+        <div class="synopsis">
+          <p>
+            In a world where dreams become reality, a reluctant hero must confront their past to save the future...
+            <button class="expand-btn">...</button>
+          </p>
+          <div class="full-synopsis">
+            <p>When ancient artifacts begin appearing in modern-day cities, archaeologist Dr. Elena Voss discovers they're fragments of a device that can reshape reality. Pursued by a shadowy organization, she teams up with a rogue physicist to prevent the world from unraveling at the seams.</p>
+          </div>
+        </div>
+        <div class="cast">
+          <h3>Cast</h3>
+          <ul class="cast-list">
+            <li><strong>Alexandra Daddario</strong> as Dr. Elena Voss</li>
+            <li><strong>John David Washington</strong> as Marcus Cole</li>
+            <li><strong>Gong Li</strong> as Minister Qiang</li>
+            <li><strong>Wagner Moura</strong> as Professor Rafael Ortiz</li>
+          </ul>
+        </div>
+      </div>
+      <div class="info-right">
+        <div class="credits">
+          <h3>Director</h3>
+          <p>Denis Villeneuve</p>
+          
+          <h3>Writer</h3>
+          <p>Eric Roth</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="two-column">
+      <div class="column-left">
+        <div class="carousel">
+          <img src="actor1.jpg" class="actor active" alt="Actor 1">
+          <img src="actor2.jpg" class="actor next" alt="Actor 2">
+          <img src="actor3.jpg" class="actor prev" alt="Actor 3">
+        </div>
+      </div>
+      <div class="column-right">
+        <button class="btn experience-btn">Experience</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="flex justify-center mb-4">
+      <img src="https://i.imgur.com/xvqBrl0.png" alt="Company Logo" class="footer-logo" />
+    </div>
+    <p class="footer-title">Patrick Creations</p>
+    <p class="footer-contact">
+      Contact:
+      <a href="mailto:emmanuelowochiopatrick@gmail.com" class="underline">emmanuelowochiopatrick@gmail.com</a> &nbsp;|&nbsp;
+      <a href="tel:+2348163696389" class="underline">+234 816 369 6389</a>
+    </p>
+    <div class="footer-social">
+      <!-- Social Icons would go here -->
+    </div>
+    <p class="footer-tagline">Another Patrick Creation</p>
+    <p class="footer-credits">Emmanuel Patrick, Muneer Abdulkadir, Chidalu Okeke</p>
+    <p class="footer-copyright">&copy; 2025 Patrick Creations. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Carousel functionality
+    const actors = document.querySelectorAll('.actor');
+    let currentIndex = 0;
+
+    function updateCarousel() {
+      actors.forEach((actor, index) => {
+        actor.classList.remove('active', 'prev', 'next');
+        
+        if (index === currentIndex) {
+          actor.classList.add('active');
+        } else if (index === (currentIndex + 1) % actors.length) {
+          actor.classList.add('next');
+        } else {
+          actor.classList.add('prev');
+        }
+      });
+    }
+
+    actors.forEach(actor => {
+      actor.addEventListener('click', () => {
+        if (actor.classList.contains('next')) {
+          currentIndex = (currentIndex + 1) % actors.length;
+        } else if (actor.classList.contains('prev')) {
+          currentIndex = (currentIndex - 1 + actors.length) % actors.length;
+        }
+        updateCarousel();
+      });
+    });
+
+    // Synopsis expander
+    const expandBtn = document.querySelector('.expand-btn');
+    const fullSynopsis = document.querySelector('.full-synopsis');
+
+    expandBtn.addEventListener('click', () => {
+      fullSynopsis.style.display = fullSynopsis.style.display === 'block' ? 'none' : 'block';
+      expandBtn.textContent = fullSynopsis.style.display === 'block' ? '▲' : '...';
+    });
+  </script>
+</body>
+</html>
