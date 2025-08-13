@@ -35,7 +35,7 @@
         }
 
         body.dark {
-            background-color: #000;
+            background-color: #111;
             color: #fff;
         }
         
@@ -126,6 +126,7 @@
             margin-bottom: 20px;
             color: #000;
             letter-spacing: 2px;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
         }
 
         body.dark h1 {
@@ -772,7 +773,7 @@
 
     <div class="container">
         <header>
-            <h1>Join The NEWSLETTER</h1>
+            <h1>Welcome</h1>
             <p class="subtitle">
                 At Patrick Creations, we're more than just a movie website - we're a community of film enthusiasts 
                 passionate about the art of storytelling. Connect with us to stay updated on the latest 
@@ -879,24 +880,24 @@
         // Theme toggle script
         const toggleBtn = document.getElementById('themeToggle');
         const icon = document.getElementById('themeIcon');
-        const root = document.documentElement;
+        const body = document.body;
 
         // Set initial theme
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme === 'dark') {
-            root.classList.add('dark');
+            body.classList.add('dark');
             icon.textContent = '☀️';
         } else {
             icon.textContent = '🌙';
         }
 
         toggleBtn.addEventListener('click', () => {
-            if (root.classList.contains('dark')) {
-                root.classList.remove('dark');
+            if (body.classList.contains('dark')) {
+                body.classList.remove('dark');
                 localStorage.setItem('theme', 'light');
                 icon.textContent = '🌙';
             } else {
-                root.classList.add('dark');
+                body.classList.add('dark');
                 localStorage.setItem('theme', 'dark');
                 icon.textContent = '☀️';
             }
