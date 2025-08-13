@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>The Wall — Patrick Creations</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1220; --accent:#ff6b6b; --muted:#94a3b8; --glass: rgba(255,255,255,0.04);
+      --max-width:1100px;
+      color-scheme: dark;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;background:linear-gradient(180deg,#071023 0%, #071827 60%);color:#e6eef8}
+    .container{max-width:var(--max-width);margin:36px auto;padding:24px}
+    header{display:flex;align-items:center;gap:16px}
+    .logo{width:56px;height:56px;border-radius:8px;background:linear-gradient(135deg,#ff6b6b,#ffb86b);display:flex;align-items:center;justify-content:center;font-weight:800;color:#08101a}
+    h1{margin:0;font-size:20px}
+    p.lead{margin:4px 0 0;color:var(--muted);font-size:13px}
+
+    .toolbar{display:flex;gap:12px;align-items:center;margin:20px 0}
+    .search{flex:1;background:var(--glass);padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04)}
+    .btn{background:var(--accent);color:#07101a;padding:10px 14px;border-radius:10px;border:none;font-weight:600;cursor:pointer}
+    .ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 12px;border-radius:10px;color:var(--muted);cursor:pointer}
+
+    .layout{display:grid;grid-template-columns:1fr 320px;gap:28px}
+
+    /* Masonry wall */
+    .wall{column-count:2;column-gap:18px}
+    @media(min-width:1000px){.wall{column-count:3}}
+    .card{break-inside:avoid;margin:0 0 18px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,0.03)}
+    .card img{width:100%;height:auto;display:block}
+    .card-body{padding:12px}
+    .meta{display:flex;align-items:center;gap:10px}
+    .avatar{width:36px;height:36px;border-radius:9px;background:#123;display:inline-flex;align-items:center;justify-content:center;font-weight:700}
+    .title{font-weight:700;margin:6px 0}
+    .desc{color:var(--muted);font-size:13px;margin:6px 0}
+    .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+    .tag{background:rgba(255,255,255,0.03);padding:6px 8px;border-radius:999px;font-size:12px;color:var(--muted)}
+    .actions{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+    .like{display:inline-flex;align-items:center;gap:8px;color:var(--muted)}
+
+    /* Sidebar */
+    aside{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+    .small{font-size:13px;color:var(--muted)}
+    .creator{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px dashed rgba(255,255,255,0.02)}
+
+    /* Composer */
+    .composer{background:rgba(255,255,255,0.02);padding:12px;border-radius:12px;margin-bottom:16px}
+    .composer textarea{width:100%;min-height:70px;background:transparent;border:1px dashed rgba(255,255,255,0.03);padding:8px;border-radius:8px;color:inherit}
+
+    footer{margin-top:28px;text-align:center;color:var(--muted);font-size:13px}
+
+    /* small interactions */
+    .pill{padding:6px 10px;border-radius:999px;background:rgba(0,0,0,0.25);font-size:13px}
+    .featured{display:flex;gap:10px;align-items:center;padding:8px;border-radius:10px;background:linear-gradient(90deg,rgba(255,255,255,0.02),transparent)}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">PC</div>
+      <div>
+        <h1>The Wall</h1>
+        <p class="lead">A living community board for films, ideas and people — posts from filmmakers, fans and collaborators.</p>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <input id="search" class="search" placeholder="Search posts, creators, tags" />
+      <button id="newPostBtn" class="btn">New Post</button>
+      <button class="ghost">Filter</button>
+    </div>
+
+    <div class="layout">
+      <main>
+        <section class="composer" id="composer">
+          <strong>Share something</strong>
+          <textarea id="postText" placeholder="Drop a link to your trailer, a behind-the-scenes photo, or a shoutout to a creator."></textarea>
+          <div style="display:flex;gap:8px;margin-top:8px;justify-content:space-between;align-items:center">
+            <div style="display:flex;gap:8px">
+              <input id="imageUrl" placeholder="Image URL (optional)" style="background:transparent;border:1px dashed rgba(255,255,255,0.03);padding:8px;border-radius:8px;color:inherit" />
+              <input id="tagsInput" placeholder="#tags (comma separated)" style="background:transparent;border:1px dashed rgba(255,255,255,0.03);padding:8px;border-radius:8px;color:inherit" />
+            </div>
+            <div>
+              <button id="postBtn" class="btn">Post</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="wall" id="wall">
+          <!-- posts injected here by JS -->
+        </section>
+
+        <footer>
+          <div class="pill">Patrick Creations — A hub for African stories</div>
+        </footer>
+      </main>
+
+      <aside>
+        <div class="featured">
+          <div style="width:56px;height:56px;border-radius:8px;background:linear-gradient(135deg,#ff6b6b,#ffb86b);display:flex;align-items:center;justify-content:center;font-weight:800;color:#08101a">PC</div>
+          <div>
+            <div style="font-weight:700">Featured Series</div>
+            <div class="small">Accelerate: Stories from the Street</div>
+          </div>
+        </div>
+
+        <div style="height:12px"></div>
+
+        <div style="font-weight:700;margin-bottom:8px">Top Creators</div>
+        <div class="creator">
+          <div class="avatar">AO</div>
+          <div>
+            <div style="font-weight:700">Ayo Onu</div>
+            <div class="small">Director • 12 posts</div>
+          </div>
+        </div>
+        <div class="creator">
+          <div class="avatar">SL</div>
+          <div>
+            <div style="font-weight:700">Slawn</div>
+            <div class="small">Visual Artist • 9 posts</div>
+          </div>
+        </div>
+
+        <div style="height:12px"></div>
+        <div style="font-weight:700;margin-bottom:8px">Events & Drops</div>
+        <div class="small">Merch drop with Ashluxe — subscribers get early access.</div>
+        <div style="height:8px"></div>
+        <div class="small">Live Twitter Space: Filmmaker Fridays — this Friday 7pm.</div>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    const samplePosts = [
+      {id:1, author:'Ayo Onu', avatar:'AO', title:'New short: Night Market', desc:'Shot on a 16mm camera. Trailer drop tonight. premiered at Lagos Indie Fest.', img:'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?w=1200&q=60', tags:['#short','#16mm','#Lagos']},
+      {id:2, author:'Slawn', avatar:'SL', title:'Set design peek', desc:'Prototype for the second episode. Looking for props sponsors.', img:'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200&q=60', tags:['#set','#design']},
+      {id:3, author:'Fan', avatar:'F', title:'Fan art: The Messenger', desc:'A quick collage i made after watching episode 2.', img:'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1200&q=60', tags:['#fanart','#messenger']},
+      {id:4, author:'Documentary Team', avatar:'DT', title:'Behind the doc', desc:'Clips from our interview with the drummer in Accra.', img:'https://images.unsplash.com/photo-1515165562835-c3a1b8b4a6b7?w=1200&q=60', tags:['#docu','#music']}
+    ];
+
+    function renderPosts(posts){
+      const wall = document.getElementById('wall');
+      wall.innerHTML = '';
+      posts.forEach(p => {
+        const el = document.createElement('article');
+        el.className = 'card';
+        el.innerHTML = `
+          ${p.img?`<img src="${p.img}" alt="${p.title}">`:''}
+          <div class="card-body">
+            <div class="meta"><div class="avatar">${p.avatar}</div><div style="flex:1"><div style="font-weight:700">${p.author}</div><div class="small">just now</div></div></div>
+            <div class="title">${p.title}</div>
+            <div class="desc">${p.desc}</div>
+            <div class="tags">${p.tags.map(t => `<div class="tag">${t}</div>`).join('')}</div>
+            <div class="actions"><div class="like">❤ <span class="small">0</span></div><div class="small">Share</div></div>
+          </div>
+        `;
+        wall.appendChild(el);
+      })
+    }
+
+    renderPosts(samplePosts);
+
+    // Composer behaviour
+    document.getElementById('postBtn').addEventListener('click', ()=>{
+      const text = document.getElementById('postText').value.trim();
+      const img = document.getElementById('imageUrl').value.trim();
+      const tags = document.getElementById('tagsInput').value.split(',').map(t=>t.trim()).filter(Boolean).map(t=> t.startsWith('#')?t:'#'+t);
+      if(!text) return alert('Write a short note about your post');
+      const newPost = {id:Date.now(), author:'You', avatar:'PC', title:text.split('\n')[0].slice(0,60), desc:text, img:img||'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&q=60', tags: tags.length?tags:['#post'] };
+      samplePosts.unshift(newPost);
+      renderPosts(samplePosts);
+      document.getElementById('postText').value='';document.getElementById('imageUrl').value='';document.getElementById('tagsInput').value='';
+    });
+
+    // Basic search
+    document.getElementById('search').addEventListener('input', (e)=>{
+      const q = e.target.value.toLowerCase();
+      const filtered = samplePosts.filter(p=> (p.title+ ' '+p.desc + ' ' + p.tags.join(' ')+ ' '+p.author).toLowerCase().includes(q));
+      renderPosts(filtered);
+    });
+
+    // New Post focus
+    document.getElementById('newPostBtn').addEventListener('click', ()=>{
+      document.getElementById('postText').focus();
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+  </script>
+</body>
+</html>
