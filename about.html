@@ -151,16 +151,17 @@
 
     /* Scroll-triggered images */
     .scroll-image {
-      position: absolute;
-      width: 200px;
-      height: 300px;
+      position: fixed;
+      width: 180px;
+      height: 250px;
       object-fit: cover;
       opacity: 0;
       transform: translateY(20px);
       transition: opacity 0.8s ease, transform 0.8s ease;
-      z-index: 10;
+      z-index: 5; /* Lower than content z-index */
       border-radius: 8px;
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      pointer-events: none; /* Allow clicks to pass through */
     }
 
     .dark .scroll-image {
@@ -168,7 +169,7 @@
     }
 
     .scroll-image.visible {
-      opacity: 0.9;
+      opacity: 0.8;
       transform: translateY(0);
     }
 
@@ -176,6 +177,8 @@
     .section-light {
       background-color: white;
       color: black;
+      position: relative;
+      z-index: 10; /* Higher than images */
     }
 
     .dark .section-light {
@@ -186,11 +189,66 @@
     .section-dark {
       background-color: black;
       color: white;
+      position: relative;
+      z-index: 10; /* Higher than images */
     }
 
     .dark .section-dark {
       background-color: white;
       color: black;
+    }
+
+    /* Content containers */
+    .content-container {
+      position: relative;
+      z-index: 20; /* Higher than section z-index */
+      padding: 0 1rem;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+      .scroll-image {
+        width: 120px;
+        height: 180px;
+        display: none; /* Hide on mobile by default */
+      }
+      
+      .dropdown-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+      
+      .dropdown-menu {
+        min-width: 160px;
+      }
+      
+      h1 {
+        font-size: 2.5rem;
+      }
+      
+      h2 {
+        font-size: 2rem;
+      }
+      
+      .content-container {
+        padding: 0 0.5rem;
+      }
+    }
+
+    /* Show images on larger mobile devices in landscape */
+    @media (max-width: 768px) and (min-width: 481px) and (orientation: landscape) {
+      .scroll-image {
+        display: block;
+        width: 100px;
+        height: 150px;
+      }
+    }
+
+    /* For tablets and larger devices */
+    @media (min-width: 769px) {
+      .scroll-image {
+        display: block;
+      }
     }
   </style>
 </head>
@@ -208,7 +266,7 @@
       <a href="index.html" class="dropdown-item">Home</a>
       <a href="contactus.html" class="dropdown-item">Contact</a>
       <a href="thewall.html" class="dropdown-item">The Wall</a>
-      <div class="coffee-item">
+      <div class="dropdown-item">
         <span class="coffee-emoji">☕</span>
         <span>Buy us coffee</span>
       </div>
@@ -227,9 +285,15 @@
     </svg>
   </div>
 
+  <!-- Images placed outside sections to hover over background -->
+  <img src="https://i.imgur.com/47E6FfU.png" class="scroll-image" style="right: 10%; top: 15%; transform: rotate(5deg);" data-scroll-trigger="300">
+  <img src="https://i.imgur.com/7LgyCok.png" class="scroll-image" style="left: 10%; top: 25%; transform: rotate(-5deg);" data-scroll-trigger="800">
+  <img src="https://i.imgur.com/drVM0Qy.jpeg" class="scroll-image" style="right: 12%; top: 60%; transform: rotate(8deg);" data-scroll-trigger="500">
+  <img src="https://i.imgur.com/xvqBrl0.png" class="scroll-image" style="left: 12%; top: 70%; transform: rotate(-8deg);" data-scroll-trigger="200">
+
   <!-- Hero -->
   <section class="min-h-screen flex items-center justify-center text-center px-6 md:px-16 section-dark relative">
-    <div>
+    <div class="content-container max-w-4xl">
       <h1 class="text-4xl md:text-6xl font-bold uppercase">
         WE ARE <span class="changing-word font-black"></span>
       </h1>
@@ -241,7 +305,7 @@
 
   <!-- Welcome Address -->
   <section class="py-32 px-6 md:px-16 section-light relative">
-    <div class="max-w-4xl mx-auto text-center">
+    <div class="max-w-4xl mx-auto text-center content-container">
       <h2 class="text-3xl md:text-4xl font-bold uppercase">Founder's Welcome</h2>
       <p class="mt-6 text-lg leading-relaxed">
         Welcome to Patrick Creations.  
@@ -252,13 +316,11 @@
       </p>
       <p class="mt-8 text-right italic">— Patrick</p>
     </div>
-    <!-- First scroll image -->
-    <img src="https://i.imgur.com/47E6FfU.png" class="scroll-image" style="right: 5%; top: 20%; transform: rotate(5deg);" data-scroll-trigger="300">
   </section>
 
   <!-- About the Company -->
   <section class="py-32 px-6 md:px-16 section-dark relative">
-    <div class="max-w-5xl mx-auto">
+    <div class="max-w-5xl mx-auto content-container">
       <h2 class="text-3xl md:text-4xl font-bold uppercase text-center">The Company</h2>
       <p class="mt-6 text-lg leading-loose text-gray-300 dark:text-gray-700 text-center">
         Patrick Creations is a story studio.  
@@ -268,13 +330,11 @@
         We're not here to fit in. We're here to shake something loose in you.
       </p>
     </div>
-    <!-- Second scroll image -->
-    <img src="https://i.imgur.com/7LgyCok.png" class="scroll-image" style="left: 5%; top: 30%; transform: rotate(-5deg);" data-scroll-trigger="800">
   </section>
 
   <!-- About the Founder -->
   <section class="py-32 px-6 md:px-16 section-light relative">
-    <div class="max-w-5xl mx-auto">
+    <div class="max-w-5xl mx-auto content-container">
       <h2 class="text-3xl md:text-4xl font-bold uppercase text-center">The Founder</h2>
       <div class="mt-6 text-lg leading-relaxed space-y-4 text-center">
         <p>Patrick is an artist. A filmmaker. A storyteller obsessed with depth, silence, and soul.</p>
@@ -282,17 +342,13 @@
         <p>Inspired by the likes of Basquiat, Fincher, Chazelle, and truth itself, Patrick's work blends raw feeling with distinct visual identity. He's not just making art — he's building a language.</p>
       </div>
     </div>
-    <!-- Third scroll image -->
-    <img src="https://i.imgur.com/drVM0Qy.jpeg" class="scroll-image" style="right: 8%; top: 40%; transform: rotate(8deg);" data-scroll-trigger="500">
   </section>
 
   <!-- Footer -->
   <section class="py-20 section-dark relative">
-    <div class="text-center text-sm opacity-60">
+    <div class="text-center text-sm opacity-60 content-container">
       © Patrick Creations. Built from the Vision.
     </div>
-    <!-- Fourth scroll image -->
-    <img src="https://i.imgur.com/xvqBrl0.png" class="scroll-image" style="left: 10%; top: 20%; transform: rotate(-8deg);" data-scroll-trigger="200">
   </section>
 
   <script>
@@ -350,12 +406,15 @@
           behavior: 'smooth'
         });
       });
+      
+      // Initialize scroll images
+      animateScrollImages();
     });
 
     // Scroll-triggered image animations
     function animateScrollImages() {
       const scrollImages = document.querySelectorAll('.scroll-image');
-      const scrollPosition = window.scrollY + window.innerHeight;
+      const scrollPosition = window.scrollY + (window.innerHeight / 2);
       
       scrollImages.forEach(img => {
         const triggerOffset = parseInt(img.dataset.scrollTrigger) || 200;
@@ -369,8 +428,9 @@
       });
     }
 
-    // Initialize scroll images on load
+    // Initialize scroll images on load and resize
     window.addEventListener('load', animateScrollImages);
+    window.addEventListener('resize', animateScrollImages);
   </script>
 </body>
 </html>

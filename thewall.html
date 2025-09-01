@@ -1,193 +1,575 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>The Wall — Patrick Creations</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Wall | Patrick Creations Lookbook</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+    };
+  </script>
   <style>
-    :root{
-      --bg:#0f1724; --card:#0b1220; --accent:#ff6b6b; --muted:#94a3b8; --glass: rgba(255,255,255,0.04);
-      --max-width:1100px;
-      color-scheme: dark;
+    @keyframes wordChange {
+      0%, 20% { content: "Bold"; }
+      25%, 45% { content: "Creative"; }
+      50%, 70% { content: "Symbolic"; }
+      75%, 100% { content: "Different"; }
     }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;background:linear-gradient(180deg,#071023 0%, #071827 60%);color:#e6eef8}
-    .container{max-width:var(--max-width);margin:36px auto;padding:24px}
-    header{display:flex;align-items:center;gap:16px}
-    .logo{width:56px;height:56px;border-radius:8px;background:linear-gradient(135deg,#ff6b6b,#ffb86b);display:flex;align-items:center;justify-content:center;font-weight:800;color:#08101a}
-    h1{margin:0;font-size:20px}
-    p.lead{margin:4px 0 0;color:var(--muted);font-size:13px}
 
-    .toolbar{display:flex;gap:12px;align-items:center;margin:20px 0}
-    .search{flex:1;background:var(--glass);padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04)}
-    .btn{background:var(--accent);color:#07101a;padding:10px 14px;border-radius:10px;border:none;font-weight:600;cursor:pointer}
-    .ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 12px;border-radius:10px;color:var(--muted);cursor:pointer}
+    .changing-word::after {
+      content: "Bold";
+      animation: wordChange 8s infinite ease-in-out;
+      display: inline-block;
+      margin-left: 0.4rem;
+    }
 
-    .layout{display:grid;grid-template-columns:1fr 320px;gap:28px}
+    /* Smooth transitions for dark mode */
+    html, body, section, footer {
+      transition: background-color 0.6s ease, color 0.6s ease;
+    }
 
-    /* Masonry wall */
-    .wall{column-count:2;column-gap:18px}
-    @media(min-width:1000px){.wall{column-count:3}}
-    .card{break-inside:avoid;margin:0 0 18px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,0.03)}
-    .card img{width:100%;height:auto;display:block}
-    .card-body{padding:12px}
-    .meta{display:flex;align-items:center;gap:10px}
-    .avatar{width:36px;height:36px;border-radius:9px;background:#123;display:inline-flex;align-items:center;justify-content:center;font-weight:700}
-    .title{font-weight:700;margin:6px 0}
-    .desc{color:var(--muted);font-size:13px;margin:6px 0}
-    .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-    .tag{background:rgba(255,255,255,0.03);padding:6px 8px;border-radius:999px;font-size:12px;color:var(--muted)}
-    .actions{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
-    .like{display:inline-flex;align-items:center;gap:8px;color:var(--muted)}
+    /* Dropdown styles */
+    .dropdown-container {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 50;
+    }
 
-    /* Sidebar */
-    aside{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
-    .small{font-size:13px;color:var(--muted)}
-    .creator{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px dashed rgba(255,255,255,0.02)}
+    .dropdown-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.25rem;
+      background-color: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 0.5rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      font-weight: 500;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
 
-    /* Composer */
-    .composer{background:rgba(255,255,255,0.02);padding:12px;border-radius:12px;margin-bottom:16px}
-    .composer textarea{width:100%;min-height:70px;background:transparent;border:1px dashed rgba(255,255,255,0.03);padding:8px;border-radius:8px;color:inherit}
+    .dark .dropdown-btn {
+      background-color: rgba(31, 41, 55, 0.9);
+      border-color: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
 
-    footer{margin-top:28px;text-align:center;color:var(--muted);font-size:13px}
+    .dropdown-btn:hover {
+      background-color: rgba(255, 255, 255, 1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
 
-    /* small interactions */
-    .pill{padding:6px 10px;border-radius:999px;background:rgba(0,0,0,0.25);font-size:13px}
-    .featured{display:flex;gap:10px;align-items:center;padding:8px;border-radius:10px;background:linear-gradient(90deg,rgba(255,255,255,0.02),transparent)}
+    .dark .dropdown-btn:hover {
+      background-color: rgba(17, 24, 39, 1);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      left: 0;
+      top: 100%;
+      margin-top: 0.5rem;
+      min-width: 200px;
+      background-color: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(-10px);
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 100;
+    }
+
+    .dropdown-container:hover .dropdown-menu {
+      opacity: 1;
+      transform: translateY(0);
+      visibility: visible;
+    }
+
+    .dark .dropdown-menu {
+      background-color: #1f2937;
+      border-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .dropdown-item {
+      display: block;
+      padding: 0.75rem 1.25rem;
+      color: #333;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      position: relative;
+      border-bottom: 1px dotted rgba(0, 0, 0, 0.1);
+    }
+
+    .dark .dropdown-item {
+      color: #f3f4f6;
+      border-bottom-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .dropdown-item:last-child {
+      border-bottom: none;
+    }
+
+    .dropdown-item:hover {
+      background-color: #f9fafb;
+      padding-left: 1.5rem;
+    }
+
+    .dark .dropdown-item:hover {
+      background-color: #374151;
+    }
+
+    /* Moodboard specific styles */
+    .moodboard-container {
+      columns: 4 250px;
+      column-gap: 1rem;
+      padding: 2rem;
+    }
+
+    .moodboard-item {
+      break-inside: avoid;
+      margin-bottom: 1rem;
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+
+    .dark .moodboard-item {
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.05);
+    }
+
+    .moodboard-item:hover {
+      transform: scale(1.03);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      z-index: 10;
+    }
+
+    .dark .moodboard-item:hover {
+      box-shadow: 0 10px 25px rgba(255, 255, 255, 0.15);
+    }
+
+    .moodboard-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .moodboard-item:hover .moodboard-img {
+      transform: scale(1.1);
+    }
+
+    .moodboard-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+      color: white;
+      padding: 1.5rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .moodboard-item:hover .moodboard-overlay {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Color organization classes */
+    .color-red { order: 1; }
+    .color-orange { order: 2; }
+    .color-yellow { order: 3; }
+    .color-green { order: 4; }
+    .color-blue { order: 5; }
+    .color-purple { order: 6; }
+
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.95);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal.open {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-content {
+      max-width: 90%;
+      max-height: 90%;
+      position: relative;
+    }
+
+    .modal-img {
+      max-width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
+    .modal-caption {
+      color: white;
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    /* Intro text styles */
+    .intro-text {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+      text-align: center;
+      font-style: italic;
+      opacity: 0.8;
+      line-height: 1.6;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+      .moodboard-container {
+        columns: 2 150px;
+        column-gap: 0.75rem;
+        padding: 1rem;
+      }
+      
+      .dropdown-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+      
+      .dropdown-menu {
+        min-width: 160px;
+      }
+
+      .intro-text {
+        padding: 0 1rem;
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .moodboard-container {
+        columns: 1;
+      }
+    }
   </style>
 </head>
-<body>
-  <div class="container">
-    <header>
-      <div class="logo">PC</div>
-      <div>
-        <h1>The Wall</h1>
-        <p class="lead">A living community board for films, ideas and people — posts from filmmakers, fans and collaborators.</p>
+
+<body class="bg-white text-black dark:bg-black dark:text-white font-sans leading-relaxed tracking-wide">
+  <!-- Menu Dropdown -->
+  <div class="dropdown-container">
+    <button class="dropdown-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
+      </svg>
+      Menu
+    </button>
+    <div class="dropdown-menu">
+      <a href="index.html" class="dropdown-item">Home</a>
+      <a href="about.html" class="dropdown-item">About</a>
+      <a href="contactus.html" class="dropdown-item">Contact</a>
+      <div class="dropdown-item">
+        <span class="coffee-emoji">☕</span>
+        <span>Buy us coffee</span>
       </div>
-    </header>
-
-    <div class="toolbar">
-      <input id="search" class="search" placeholder="Search posts, creators, tags" />
-      <button id="newPostBtn" class="btn">New Post</button>
-      <button class="ghost">Filter</button>
-    </div>
-
-    <div class="layout">
-      <main>
-        <section class="composer" id="composer">
-          <strong>Share something</strong>
-          <textarea id="postText" placeholder="Drop a link to your trailer, a behind-the-scenes photo, or a shoutout to a creator."></textarea>
-          <div style="display:flex;gap:8px;margin-top:8px;justify-content:space-between;align-items:center">
-            <div style="display:flex;gap:8px">
-              <input id="imageUrl" placeholder="Image URL (optional)" style="background:transparent;border:1px dashed rgba(255,255,255,0.03);padding:8px;border-radius:8px;color:inherit" />
-              <input id="tagsInput" placeholder="#tags (comma separated)" style="background:transparent;border:1px dashed rgba(255,255,255,0.03);padding:8px;border-radius:8px;color:inherit" />
-            </div>
-            <div>
-              <button id="postBtn" class="btn">Post</button>
-            </div>
-          </div>
-        </section>
-
-        <section class="wall" id="wall">
-          <!-- posts injected here by JS -->
-        </section>
-
-        <footer>
-          <div class="pill">Patrick Creations — A hub for African stories</div>
-        </footer>
-      </main>
-
-      <aside>
-        <div class="featured">
-          <div style="width:56px;height:56px;border-radius:8px;background:linear-gradient(135deg,#ff6b6b,#ffb86b);display:flex;align-items:center;justify-content:center;font-weight:800;color:#08101a">PC</div>
-          <div>
-            <div style="font-weight:700">Featured Series</div>
-            <div class="small">Accelerate: Stories from the Street</div>
-          </div>
-        </div>
-
-        <div style="height:12px"></div>
-
-        <div style="font-weight:700;margin-bottom:8px">Top Creators</div>
-        <div class="creator">
-          <div class="avatar">AO</div>
-          <div>
-            <div style="font-weight:700">Ayo Onu</div>
-            <div class="small">Director • 12 posts</div>
-          </div>
-        </div>
-        <div class="creator">
-          <div class="avatar">SL</div>
-          <div>
-            <div style="font-weight:700">Slawn</div>
-            <div class="small">Visual Artist • 9 posts</div>
-          </div>
-        </div>
-
-        <div style="height:12px"></div>
-        <div style="font-weight:700;margin-bottom:8px">Events & Drops</div>
-        <div class="small">Merch drop with Ashluxe — subscribers get early access.</div>
-        <div style="height:8px"></div>
-        <div class="small">Live Twitter Space: Filmmaker Fridays — this Friday 7pm.</div>
-      </aside>
     </div>
   </div>
 
-  <script>
-    const samplePosts = [
-      {id:1, author:'Ayo Onu', avatar:'AO', title:'New short: Night Market', desc:'Shot on a 16mm camera. Trailer drop tonight. premiered at Lagos Indie Fest.', img:'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?w=1200&q=60', tags:['#short','#16mm','#Lagos']},
-      {id:2, author:'Slawn', avatar:'SL', title:'Set design peek', desc:'Prototype for the second episode. Looking for props sponsors.', img:'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200&q=60', tags:['#set','#design']},
-      {id:3, author:'Fan', avatar:'F', title:'Fan art: The Messenger', desc:'A quick collage i made after watching episode 2.', img:'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1200&q=60', tags:['#fanart','#messenger']},
-      {id:4, author:'Documentary Team', avatar:'DT', title:'Behind the doc', desc:'Clips from our interview with the drummer in Accra.', img:'https://images.unsplash.com/photo-1515165562835-c3a1b8b4a6b7?w=1200&q=60', tags:['#docu','#music']}
-    ];
+  <!-- Theme Toggle Button -->
+  <button id="themeToggle" class="fixed top-4 right-4 z-50 p-3 bg-gray-200 dark:bg-gray-800 rounded-full shadow-md transition duration-300">
+    <span id="themeIcon">🌙</span>
+  </button>
 
-    function renderPosts(posts){
-      const wall = document.getElementById('wall');
-      wall.innerHTML = '';
-      posts.forEach(p => {
-        const el = document.createElement('article');
-        el.className = 'card';
-        el.innerHTML = `
-          ${p.img?`<img src="${p.img}" alt="${p.title}">`:''}
-          <div class="card-body">
-            <div class="meta"><div class="avatar">${p.avatar}</div><div style="flex:1"><div style="font-weight:700">${p.author}</div><div class="small">just now</div></div></div>
-            <div class="title">${p.title}</div>
-            <div class="desc">${p.desc}</div>
-            <div class="tags">${p.tags.map(t => `<div class="tag">${t}</div>`).join('')}</div>
-            <div class="actions"><div class="like">❤ <span class="small">0</span></div><div class="small">Share</div></div>
-          </div>
-        `;
-        wall.appendChild(el);
-      })
+  <!-- Hero Section -->
+  <section class="min-h-[40vh] flex items-center justify-center text-center px-6 md:px-16 bg-black text-white relative">
+    <div class="content-container max-w-4xl">
+      <h1 class="text-4xl md:text-6xl font-bold uppercase">
+        THE WALL
+      </h1>
+      <p class="mt-4 text-lg md:text-xl max-w-2xl mx-auto opacity-70">
+        A visual moodboard of our creative journey
+      </p>
+    </div>
+  </section>
+
+  <!-- Intro Text -->
+  <div class="intro-text">
+    <p>Our visual library—a curated collection of stills, concept art, posters, and behind-the-scenes moments. Organized intuitively by color spectrum, flowing from warm to cool tones.</p>
+  </div>
+
+  <!-- Moodboard Grid - Organized by Color Spectrum -->
+  <div class="moodboard-container">
+    <!-- Reds -->
+    <div class="moodboard-item color-red">
+      <img src="https://i.imgur.com/47E6FfU.png" alt="The Brilliant Boy" class="moodboard-img">
+      <div class="moodboard-overlay">
+        <h3>The Brilliant Boy</h3>
+        <p>Film Still</p>
+      </div>
+    </div>
+    
+    <div class="moodboard-item color-red">
+      <img src="https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Concept Art 1" class="moodboard-img">
+      <div class="moodboard-overlay">
+        <h3>Sunset Concepts</h3>
+        <p>Early Visual Development</p>
+      </div>
+    </div>
+    
+    <div class="moodboard-item color-red">
+      <img src="https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Red Concept" class="moodboard-img">
+      <div class="moodboard-overlay">
+        <h3>Passion</h3>
+        <p>Concept Art</p>
+      </div>
+    </div>
+    
+    <!-- Oranges -->
+    <div class="moodboard-item color-orange">
+      <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Cinematic Still" class="moodboard-img">
+      <div class="moodboard-overlay">
+        <h3>Golden Hour</h3>
+        <p>Cinematic Still</p>
+      </div>
+    </div>
+    
+    <div class="moodboard-item color-orange">
+      <img src="https://images.unsplash.com/photo-1542204165-65bf26472b9b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Poster Design 1" class="moodboard-img">
+      <div class="moodboard-overlay">
+        <h3>Vintage Poster</h3>
+        <p>Design Concept</p>
+      </div>
+    </div>
+    
+    <div class="moodboard-item color-orange">
+      <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Orange Concept" class="moodboard-img">
+      <div class="moodboard-overlay">
+        <h3>Warmth</h3>
+        <p>Color Study</p>
+      </div>
+    </div>
+    
+    <!-- Yellows -->
+    <div class="moodboard-item color-yellow">
+      <img src="https://i.imgur.com/7LgyCok.png" alt="Alone Film" class="moodboard-img">
+      <div class="moodboard-overlay">
+        <h3>Alone</h3>
+        <p>Film Still</p>
+      </div>
+    </div>
+    
+    <div class="moodboard-item color-yellow">
+      <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Behind The Scenes 1" class="moodboard-img">
+      <div class="moodboard-overlay">
+        <h3>Lighting Setup</h3>
+        <p>Behind The Scenes</p>
+      </div>
+    </div>
+    
+    <div class="moodboard-item color-yellow">
+      <img src="https://images.unsplash.com/photo-1460661419207-972bf19e2c1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Yellow Concept" class="moodboard-img">
+      <div class="moodboard-overlay">
+        <h3>Sunlight</h3>
+        <p>Lighting Study</p>
+      </div>
+    </div>
+    
+    <!-- Greens -->
+    <div class="moodboard-item color-green">
+      <img src="https://i.imgur.com/drVM0Qy.jpeg" alt="Behind The Scenes 2" class="moodboard-img">
+      <div class="moodboard-overlay">
+        <h3>On Set</h3>
+        <p>Behind The Scenes</p>
+      </div>
+    </div>
+    
+    <div class="moodboard-item color-green">
+      <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Concept Art 2" class="moodboard-img">
+      <div class="moodboard-overlay">
+        <h3>Character Design</h3>
+        <p>Concept Art</p>
+      </div>
+    </div>
+    
+    <div class="moodboard-item color-green">
+      <img src="https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Green Concept" class="moodboard-img">
+      <div class="moodboard-overlay">
+        <h3>Growth</h3>
+        <p>Concept Art</p>
+      </div>
+    </div>
+    
+    <!-- Blues -->
+    <div class="moodboard-item color-blue">
+      <img src="https://i.imgur.com/xvqBrl0.png" alt="Poster Design 2" class="moodboard-img">
+      <div class="moodboard-overlay">
+        <h3>Procrastination</h3>
+        <p>Poster Design</p>
+      </div>
+    </div>
+    
+    <div class="moodboard-item color-blue">
+      <img src="https://images.unsplash.com/photo-1518638150340-f706e86654de?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Film Still 2" class="moodboard-img">
+      <div class="moodboard-overlay">
+        <h3>Night Scene</h3>
+        <p>Film Still</p>
+      </div>
+    </div>
+    
+    <div class="moodboard-item color-blue">
+      <img src="https://images.unsplash.com/photo-1518843025960-d60217f226f5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Blue Concept" class="moodboard-img">
+      <div class="moodboard-overlay">
+        <h3>Serenity</h3>
+        <p>Color Study</p>
+      </div>
+    </div>
+    
+    <!-- Purples -->
+    <div class="moodboard-item color-purple">
+      <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Moody Still" class="moodboard-img">
+      <div class="moodboard-overlay">
+        <h3>Dream Sequence</h3>
+        <p>Concept Still</p>
+      </div>
+    </div>
+    
+    <div class="moodboard-item color-purple">
+      <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="BTS 3" class="moodboard-img">
+      <div class="moodboard-overlay">
+        <h3>Director's View</h3>
+        <p>Behind The Scenes</p>
+      </div>
+    </div>
+    
+    <div class="moodboard-item color-purple">
+      <img src="https://images.unsplash.com/photo-1550684376-efcbd6e3f031?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Purple Concept" class="moodboard-img">
+      <div class="moodboard-overlay">
+        <h3>Mystery</h3>
+        <p>Concept Art</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="imageModal">
+    <div class="modal-content">
+      <button class="modal-close" id="modalClose">&times;</button>
+      <img src="" alt="" class="modal-img" id="modalImage">
+      <div class="modal-caption" id="modalCaption"></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="py-12 bg-black text-white text-center">
+    <div class="content-container">
+      <img src="https://i.imgur.com/xvqBrl0.png" alt="Patrick Creations Logo" class="h-16 mx-auto mb-4">
+      <p class="text-xl font-bold">Patrick Creations</p>
+      <p class="mt-2 opacity-70">Visual storytelling through still imagery</p>
+      <p class="text-sm opacity-60 mt-6">© 2025 Patrick Creations. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Theme Toggle Script
+    const toggleBtn = document.getElementById('themeToggle');
+    const icon = document.getElementById('themeIcon');
+    const root = document.documentElement;
+
+    // Set initial theme
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      root.classList.add('dark');
+      icon.textContent = '☀️';
+    } else {
+      icon.textContent = '🌙';
     }
 
-    renderPosts(samplePosts);
-
-    // Composer behaviour
-    document.getElementById('postBtn').addEventListener('click', ()=>{
-      const text = document.getElementById('postText').value.trim();
-      const img = document.getElementById('imageUrl').value.trim();
-      const tags = document.getElementById('tagsInput').value.split(',').map(t=>t.trim()).filter(Boolean).map(t=> t.startsWith('#')?t:'#'+t);
-      if(!text) return alert('Write a short note about your post');
-      const newPost = {id:Date.now(), author:'You', avatar:'PC', title:text.split('\n')[0].slice(0,60), desc:text, img:img||'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&q=60', tags: tags.length?tags:['#post'] };
-      samplePosts.unshift(newPost);
-      renderPosts(samplePosts);
-      document.getElementById('postText').value='';document.getElementById('imageUrl').value='';document.getElementById('tagsInput').value='';
+    toggleBtn.addEventListener('click', () => {
+      if (root.classList.contains('dark')) {
+        root.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+        icon.textContent = '🌙';
+      } else {
+        root.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+        icon.textContent = '☀️';
+      }
     });
 
-    // Basic search
-    document.getElementById('search').addEventListener('input', (e)=>{
-      const q = e.target.value.toLowerCase();
-      const filtered = samplePosts.filter(p=> (p.title+ ' '+p.desc + ' ' + p.tags.join(' ')+ ' '+p.author).toLowerCase().includes(q));
-      renderPosts(filtered);
+    // Modal functionality
+    const modal = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImage');
+    const modalCaption = document.getElementById('modalCaption');
+    const modalClose = document.getElementById('modalClose');
+    const moodboardItems = document.querySelectorAll('.moodboard-item');
+    
+    moodboardItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const imgSrc = item.querySelector('img').src;
+        const title = item.querySelector('h3').textContent;
+        const description = item.querySelector('p').textContent;
+        
+        modalImage.src = imgSrc;
+        modalCaption.innerHTML = `<h3 class="text-xl font-bold">${title}</h3><p class="mt-2">${description}</p>`;
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+    
+    modalClose.addEventListener('click', () => {
+      modal.classList.remove('open');
+      document.body.style.overflow = 'auto';
+    });
+    
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('open');
+        document.body.style.overflow = 'auto';
+      }
     });
 
-    // New Post focus
-    document.getElementById('newPostBtn').addEventListener('click', ()=>{
-      document.getElementById('postText').focus();
-      window.scrollTo({top:0,behavior:'smooth'});
+    // Add subtle animation to grid items on load
+    document.addEventListener('DOMContentLoaded', () => {
+      const items = document.querySelectorAll('.moodboard-item');
+      items.forEach((item, index) => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+          item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+          item.style.opacity = '1';
+          item.style.transform = 'translateY(0)';
+        }, 100 + index * 100);
+      });
     });
   </script>
 </body>
-</html>
