@@ -1,907 +1,657 @@
 <!DOCTYPE html>
-<html lang="en" class="transition-colors duration-300">
+<html lang="en" class="antialiased">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us | Patrick Creations</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-      };
-    </script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-        }
-        
-        body {
-            background-color: #f9f9f6;
-            color: #000;
-            line-height: 1.6;
-            background-image: url(IMG_5491.JPG);
-            background-size: cover;
-            background-position: center 35%;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
-            position: relative;
-            min-height: 100vh;
-            overflow-x: hidden;
-            transition: background-color 0.3s, color 0.3s;
-        }
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | Patrick Creations</title>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-        body.dark {
-            background-color: #111;
-            color: #fff;
-        }
-        
-        /* Subtle edge framing rectangles */
-        .edge-frame {
-            position: fixed;
-            border: 1px solid;
-            opacity: 0.1;
-            z-index: 0;
-            pointer-events: none;
-        }
-        
-        .frame-1 {
-            width: 150px;
-            height: 100px;
-            top: 5%;
-            left: 3%;
-            border-color: #000;
-            transform: rotate(10deg);
-        }
-        
-        .frame-2 {
-            width: 120px;
-            height: 80px;
-            bottom: 5%;
-            right: 3%;
-            border-color: #000;
-            transform: rotate(-8deg);
-        }
-        
-        .frame-3 {
-            width: 100px;
-            height: 120px;
-            top: 50%;
-            right: 2%;
-            border-color: #000;
-            transform: translateY(-50%) rotate(5deg);
-        }
-        
-        .frame-4 {
-            width: 110px;
-            height: 70px;
-            bottom: 15%;
-            left: 3%;
-            border-color: #000;
-            transform: rotate(-12deg);
-        }
-        
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(
-                ellipse at center,
-                rgba(255,255,255,0.6) 0%,
-                rgba(255,255,255,0.8) 100%
-            );
-            z-index: -1;
-        }
+  <style>
+    :root {
+      --bg:#fff; --fg:#0b0b0b; --muted:rgba(11,11,11,0.1); --accent-weak:rgba(11,11,11,0.06);
+      --label-opacity:0.92;
+    }
+    .dark-theme { --bg:#0b0b0b; --fg:#fff; --muted:rgba(255,255,255,0.06); --accent-weak:rgba(255,255,255,0.03); }
+    html,body{height:100%;margin:0;font-family:Inter,sans-serif;overflow-x:hidden;background:var(--bg);color:var(--fg);transition:.35s}
+    
+    /* Topbar and sidebar styles from index page */
+    .topbar{height:72px;position:fixed;top:0;inset-inline:0;display:flex;align-items:center;justify-content:space-between;padding:0 1.25rem;z-index:60;background:transparent;backdrop-filter:blur(4px);}
+    .logo img{height:40px;width:auto;}
+    .sidebar{position:fixed;top:0;right:-420px;width:380px;height:100vh;background:var(--bg);color:var(--fg);box-shadow:-18px 0 40px rgba(0,0,0,0.08);transition:right .45s;z-index:80;padding:3rem 2rem;display:flex;flex-direction:column;justify-content:space-between;}
+    .sidebar.open{right:0;}
+    .nav-links a{display:block;font-weight:800;font-size:1.25rem;margin:1rem 0;color:inherit;text-decoration:none;}
+    .toggle{width:54px;height:30px;border-radius:999px;padding:4px;position:relative;cursor:pointer;background:var(--accent-weak);display:inline-flex;align-items:center;transition:.25s;}
+    .toggle .knob{width:22px;height:22px;border-radius:50%;background:var(--bg);transition:.28s;transform:translateX(0);}
+    .toggle.on{background:var(--fg);}
+    .toggle.on .knob{transform:translateX(24px);background:var(--bg);}
+    
+    /* Modified menu button styles */
+    #hamburger {
+      position: fixed;
+      top: 1.25rem;
+      right: 1.25rem;
+      z-index: 70;
+      background: transparent;
+      border: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      width: auto;
+      color: var(--fg);
+      transition: opacity 0.3s;
+    }
+    
+    #hamburger:hover {
+      opacity: 0.7;
+      background: transparent !important;
+      box-shadow: none !important;
+      transform: none !important;
+    }
+    
+    #sidebarClose {
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.25rem;
+      color: var(--fg);
+      transition: opacity 0.3s;
+    }
+    
+    #sidebarClose:hover {
+      opacity: 0.7;
+      background: transparent !important;
+      box-shadow: none !important;
+      transform: none !important;
+    }
+    
+    /* Contact page specific styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        background-color: #f9f9f6;
+        color: #000;
+        line-height: 1.6;
+        background-image: url(IMG_5491.JPG);
+        background-size: cover;
+        background-position: center 35%;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        position: relative;
+        min-height: 100vh;
+        overflow-x: hidden;
+        transition: background-color 0.3s, color 0.3s;
+    }
 
-        body.dark::before {
-            background: radial-gradient(
-                ellipse at center,
-                rgba(0,0,0,0.6) 0%,
-                rgba(0,0,0,0.8) 100%
-            );
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 50px 20px;
-            position: relative;
-            z-index: 1;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-        
+    body.dark-theme {
+        background-color: #111;
+        color: #fff;
+    }
+    
+    /* Subtle edge framing rectangles */
+    .edge-frame {
+        position: fixed;
+        border: 1px solid;
+        opacity: 0.1;
+        z-index: 0;
+        pointer-events: none;
+    }
+    
+    .frame-1 {
+        width: 150px;
+        height: 100px;
+        top: 5%;
+        left: 3%;
+        border-color: #000;
+        transform: rotate(10deg);
+    }
+    
+    .frame-2 {
+        width: 120px;
+        height: 80px;
+        bottom: 5%;
+        right: 3%;
+        border-color: #000;
+        transform: rotate(-8deg);
+    }
+    
+    .frame-3 {
+        width: 100px;
+        height: 120px;
+        top: 50%;
+        right: 2%;
+        border-color: #000;
+        transform: translateY(-50%) rotate(5deg);
+    }
+    
+    .frame-4 {
+        width: 110px;
+        height: 70px;
+        bottom: 15%;
+        left: 3%;
+        border-color: #000;
+        transform: rotate(-12deg);
+    }
+    
+    body::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            ellipse at center,
+            rgba(255,255,255,0.6) 0%,
+            rgba(255,255,255,0.8) 100%
+        );
+        z-index: -1;
+    }
+
+    body.dark-theme::before {
+        background: radial-gradient(
+            ellipse at center,
+            rgba(0,0,0,0.6) 0%,
+            rgba(0,0,0,0.8) 100%
+        );
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 100px 20px 50px;
+        position: relative;
+        z-index: 1;
+    }
+    
+    header {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+    
+    h1 {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+        color: var(--fg);
+        letter-spacing: 2px;
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+    }
+    
+    .subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        max-width: 700px;
+        margin: 0 auto 30px;
+        line-height: 1.7;
+        color: var(--fg);
+    }
+    
+    .content {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 50px;
+        justify-content: center;
+        margin-top: 30px;
+    }
+    
+    .newsletter {
+        flex: 1;
+        min-width: 300px;
+        max-width: 500px;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 35px;
+        border-radius: 8px;
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .dark-theme .newsletter {
+        background-color: rgba(17, 17, 17, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+    
+    .newsletter-heading {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 15px;
+        color: var(--fg);
+        position: relative;
+        display: inline-block;
+    }
+    
+    .newsletter-heading::after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background: var(--fg);
+    }
+    
+    .newsletter-subheading {
+        font-size: 1rem;
+        opacity: 0.8;
+        margin-bottom: 30px;
+        line-height: 1.6;
+        color: var(--fg);
+    }
+    
+    .form-group {
+        margin-bottom: 22px;
+    }
+    
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: var(--fg);
+    }
+    
+    input, textarea {
+        width: 100%;
+        padding: 14px;
+        background-color: rgba(255, 255, 255, 0.95);
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        color: var(--fg);
+        font-size: 1rem;
+        transition: all 0.3s;
+    }
+
+    .dark-theme input,
+    .dark-theme textarea {
+        background-color: rgba(34, 34, 34, 0.95);
+        border: 1px solid #444;
+        color: #fff;
+    }
+    
+    input::placeholder,
+    textarea::placeholder {
+        color: #666;
+        opacity: 0.8;
+    }
+
+    .dark-theme input::placeholder,
+    .dark-theme textarea::placeholder {
+        color: #aaa;
+    }
+    
+    input:focus, textarea:focus {
+        outline: none;
+        border-color: var(--fg);
+        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .dark-theme input:focus,
+    .dark-theme textarea:focus {
+        border-color: #fff;
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+    }
+    
+    textarea {
+        min-height: 120px;
+        resize: vertical;
+    }
+    
+    button.submit-btn {
+        background: var(--fg);
+        color: var(--bg);
+        border: none;
+        padding: 14px 30px;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s;
+        width: 100%;
+        letter-spacing: 0.5px;
+    }
+    
+    button.submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .dark-theme button.submit-btn:hover {
+        box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+    }
+    
+    .contact-info {
+        flex: 1;
+        min-width: 300px;
+        max-width: 500px;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 35px;
+        border-radius: 8px;
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .dark-theme .contact-info {
+        background-color: rgba(17, 17, 17, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+    
+    .info-heading {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 15px;
+        color: var(--fg);
+        position: relative;
+        display: inline-block;
+    }
+    
+    .info-heading::after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background: var(--fg);
+    }
+    
+    .info-item {
+        margin-bottom: 25px;
+    }
+    
+    .info-title {
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: var(--fg);
+    }
+    
+    .info-content {
+        color: var(--fg);
+        font-size: 1rem;
+        opacity: 0.9;
+    }
+    
+    .email-link {
+        color: var(--fg);
+        text-decoration: none;
+        transition: all 0.3s;
+        display: inline-block;
+        position: relative;
+    }
+    
+    .email-link:hover {
+        color: #555;
+        transform: translateX(3px);
+    }
+
+    .dark-theme .email-link:hover {
+        color: #ccc;
+    }
+    
+    .email-link::after {
+        content: '\f0e0';
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        margin-left: 8px;
+        font-size: 0.9rem;
+    }
+    
+    .social-links {
+        display: flex;
+        gap: 15px;
+        margin-top: 15px;
+    }
+    
+    .social-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+        color: var(--fg);
+        font-size: 1.1rem;
+        border: 1px solid var(--fg);
+    }
+
+    .dark-theme .social-icon {
+        background-color: rgba(34, 34, 34, 0.9);
+        color: #fff;
+        border: 1px solid #fff;
+    }
+    
+    .social-icon:hover {
+        background-color: var(--fg);
+        color: var(--bg);
+        transform: translateY(-3px);
+    }
+
+    .dark-theme .social-icon:hover {
+        background-color: #fff;
+        color: #000;
+    }
+    
+    .divider {
+        height: 1px;
+        background: var(--fg);
+        margin: 50px 0;
+        opacity: 0.2;
+    }
+    
+    footer {
+        text-align: center;
+        opacity: 0.8;
+        font-size: 0.9rem;
+        color: var(--fg);
+        padding-top: 20px;
+        border-top: 1px solid rgba(0, 0, 0, 0.2);
+    }
+
+    .dark-theme footer {
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    @media (max-width: 768px) {
         h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            color: #000;
-            letter-spacing: 2px;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-        }
-
-        body.dark h1 {
-            color: #fff;
-        }
-        
-        .subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            max-width: 700px;
-            margin: 0 auto 30px;
-            line-height: 1.7;
-            color: #000;
-        }
-
-        body.dark .subtitle {
-            color: #fff;
+            font-size: 2.5rem;
         }
         
         .content {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 50px;
-            justify-content: center;
-            margin-top: 30px;
+            flex-direction: column;
+            gap: 40px;
         }
         
-        .newsletter {
-            flex: 1;
-            min-width: 300px;
-            max-width: 500px;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 35px;
-            border-radius: 8px;
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        body.dark .newsletter {
-            background-color: rgba(17, 17, 17, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        .newsletter, .contact-info {
+            padding: 30px;
         }
         
-        .newsletter-heading {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: #000;
-            position: relative;
-            display: inline-block;
-        }
-
-        body.dark .newsletter-heading {
-            color: #fff;
+        body {
+            background-attachment: scroll;
+            background-position: center 25%;
         }
         
-        .newsletter-heading::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 50px;
-            height: 3px;
-            background: #000;
-        }
-
-        body.dark .newsletter-heading::after {
-            background: #fff;
+        .edge-frame {
+            display: none;
         }
         
-        .newsletter-subheading {
-            font-size: 1rem;
-            opacity: 0.8;
-            margin-bottom: 30px;
-            line-height: 1.6;
-            color: #000;
-        }
-
-        body.dark .newsletter-subheading {
-            color: #fff;
+        .container {
+            padding-top: 120px;
         }
         
-        .form-group {
-            margin-bottom: 22px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #000;
-        }
-
-        body.dark label {
-            color: #fff;
-        }
-        
-        input, textarea {
-            width: 100%;
-            padding: 14px;
-            background-color: rgba(255, 255, 255, 0.95);
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            color: #000;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-
-        body.dark input,
-        body.dark textarea {
-            background-color: rgba(34, 34, 34, 0.95);
-            border: 1px solid #444;
-            color: #fff;
-        }
-        
-        input::placeholder,
-        textarea::placeholder {
-            color: #666;
-            opacity: 0.8;
-        }
-
-        body.dark input::placeholder,
-        body.dark textarea::placeholder {
-            color: #aaa;
-        }
-        
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: #000;
-            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-        }
-
-        body.dark input:focus,
-        body.dark textarea:focus {
-            border-color: #fff;
-            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
-        }
-        
-        textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-        
-        button {
-            background: #000;
-            color: white;
-            border: none;
-            padding: 14px 30px;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s;
-            width: 100%;
-            letter-spacing: 0.5px;
-        }
-
-        body.dark button {
-            background: #fff;
-            color: #000;
-        }
-        
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        body.dark button:hover {
-            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
-        }
-        
-        .contact-info {
-            flex: 1;
-            min-width: 300px;
-            max-width: 500px;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 35px;
-            border-radius: 8px;
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        body.dark .contact-info {
-            background-color: rgba(17, 17, 17, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-        }
-        
-        .info-heading {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: #000;
-            position: relative;
-            display: inline-block;
-        }
-
-        body.dark .info-heading {
-            color: #fff;
-        }
-        
-        .info-heading::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 50px;
-            height: 3px;
-            background: #000;
-        }
-
-        body.dark .info-heading::after {
-            background: #fff;
-        }
-        
-        .info-item {
-            margin-bottom: 25px;
-        }
-        
-        .info-title {
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #000;
-        }
-
-        body.dark .info-title {
-            color: #fff;
-        }
-        
-        .info-content {
-            color: #000;
-            font-size: 1rem;
-            opacity: 0.9;
-        }
-
-        body.dark .info-content {
-            color: #fff;
-        }
-        
-        .email-link {
-            color: #000;
-            text-decoration: none;
-            transition: all 0.3s;
-            display: inline-block;
-            position: relative;
-        }
-
-        body.dark .email-link {
-            color: #fff;
-        }
-        
-        .email-link:hover {
-            color: #555;
-            transform: translateX(3px);
-        }
-
-        body.dark .email-link:hover {
-            color: #ccc;
-        }
-        
-        .email-link::after {
-            content: '\f0e0';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            margin-left: 8px;
-            font-size: 0.9rem;
-        }
-        
-        .social-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 15px;
-        }
-        
-        .social-icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.9);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            color: #000;
-            font-size: 1.1rem;
-            border: 1px solid #000;
-        }
-
-        body.dark .social-icon {
-            background-color: rgba(34, 34, 34, 0.9);
-            color: #fff;
-            border: 1px solid #fff;
-        }
-        
-        .social-icon:hover {
-            background-color: #000;
-            color: #fff;
-            transform: translateY(-3px);
-        }
-
-        body.dark .social-icon:hover {
-            background-color: #fff;
-            color: #000;
-        }
-        
-        .divider {
-            height: 1px;
-            background: #000;
-            margin: 50px 0;
-            opacity: 0.2;
-        }
-
-        body.dark .divider {
-            background: #fff;
-        }
-        
-        footer {
-            text-align: center;
-            opacity: 0.8;
-            font-size: 0.9rem;
-            color: #000;
-            padding-top: 20px;
-            border-top: 1px solid rgba(0, 0, 0, 0.2);
-        }
-
-        body.dark footer {
-            color: #fff;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-            
-            .content {
-                flex-direction: column;
-                gap: 40px;
-            }
-            
-            .newsletter, .contact-info {
-                padding: 30px;
-            }
-            
-            body {
-                background-attachment: scroll;
-                background-position: center 25%;
-            }
-            
-            .edge-frame {
-                display: none;
-            }
-        }
-
-        /* EXACT dropdown styles from index page */
-        .dropdown-container {
-            position: fixed;
+        #hamburger {
             top: 1rem;
-            left: 1rem;
-            z-index: 50;
-        }
-
-        .dropdown-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.25rem;
-            background-color: rgba(255, 255, 255, 0.9);
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            border-radius: 0.5rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            font-weight: 500;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .dark .dropdown-btn {
-            background-color: rgba(31, 41, 55, 0.9);
-            border-color: rgba(255, 255, 255, 0.1);
-            color: white;
-        }
-
-        .dropdown-btn:hover {
-            background-color: rgba(255, 255, 255, 1);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-        }
-
-        .dark .dropdown-btn:hover {
-            background-color: rgba(17, 24, 39, 1);
-        }
-
-        .dropdown-menu {
-            position: absolute;
-            left: 0;
-            top: 100%;
-            margin-top: 0.5rem;
-            min-width: 200px;
-            background-color: white;
-            border-radius: 0.5rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            overflow: hidden;
-            opacity: 0;
-            transform: translateY(-10px);
-            visibility: hidden;
-            transition: all 0.3s ease;
-            z-index: 100;
-        }
-
-        .dropdown-container:hover .dropdown-menu {
-            opacity: 1;
-            transform: translateY(0);
-            visibility: visible;
-        }
-
-        .dark .dropdown-menu {
-            background-color: #1f2937;
-            border-color: rgba(255, 255, 255, 0.05);
-        }
-
-        .dropdown-item {
-            display: block;
-            padding: 0.75rem 1.25rem;
-            color: #333;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            position: relative;
-            border-bottom: 1px dotted rgba(0, 0, 0, 0.1);
-        }
-
-        .dark .dropdown-item {
-            color: #f3f4f6;
-            border-bottom-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .dropdown-item:last-child {
-            border-bottom: none;
-        }
-
-        .dropdown-item:hover {
-            background-color: #f9fafb;
-            padding-left: 1.5rem;
-        }
-
-        .dark .dropdown-item:hover {
-            background-color: #374151;
-        }
-
-        .dropdown-item:hover::after {
-            content: "";
-            position: absolute;
-            left: 1rem;
             right: 1rem;
-            bottom: 0;
-            height: 1px;
-            background-color: rgba(0, 0, 0, 0.1);
         }
-
-        .dark .dropdown-item:hover::after {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .coffee-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.25rem;
-            color: #333;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            border-top: 1px dotted rgba(0, 0, 0, 0.1);
-        }
-
-        .dark .coffee-item {
-            color: #f3f4f6;
-            border-top-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .coffee-item:hover {
-            background-color: #f9fafb;
-        }
-
-        .dark .coffee-item:hover {
-            background-color: #374151;
-        }
-
-        .coffee-item:hover .coffee-emoji {
-            transform: scale(1.1);
-        }
-
-        .coffee-emoji {
-            transition: transform 0.2s ease;
-        }
-
-        /* Fixed theme toggle button */
-        #themeToggle {
-            width: 42px;
-            height: 42px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-        }
-
-        #themeIcon {
-            font-size: 1.2rem;
-            line-height: 1;
-        }
-
-        /* MailerLite form styles */
-        .ml-form-embedContainer {
-            width: 100% !important;
-        }
-        
-        .ml-form-embedWrapper {
-            background: transparent !important;
-            padding: 0 !important;
-        }
-        
-        .ml-form-embedBody {
-            margin: 0 !important;
-            padding: 0 !important;
-        }
-        
-        .ml-form-embedContent h4 {
-            font-size: 1.5rem !important;
-            color: #000 !important;
-            margin-bottom: 15px !important;
-            font-weight: 700 !important;
-        }
-        
-        .dark .ml-form-embedContent h4 {
-            color: #fff !important;
-        }
-        
-        .ml-form-embedContent p {
-            color: #000 !important;
-            margin-bottom: 20px !important;
-        }
-        
-        .dark .ml-form-embedContent p {
-            color: #fff !important;
-        }
-        
-        .ml-field-group input {
-            width: 100% !important;
-            padding: 14px !important;
-            background-color: rgba(255, 255, 255, 0.95) !important;
-            border: 1px solid #ddd !important;
-            border-radius: 4px !important;
-            color: #000 !important;
-            font-size: 1rem !important;
-        }
-        
-        .dark .ml-field-group input {
-            background-color: rgba(34, 34, 34, 0.95) !important;
-            border: 1px solid #444 !important;
-            color: #fff !important;
-        }
-        
-        .ml-form-embedSubmit button {
-            background: #000 !important;
-            color: white !important;
-            border: none !important;
-            padding: 14px 30px !important;
-            font-size: 1rem !important;
-            font-weight: 600 !important;
-            border-radius: 6px !important;
-            cursor: pointer !important;
-            transition: all 0.3s !important;
-            width: 100% !important;
-            letter-spacing: 0.5px !important;
-        }
-        
-        .dark .ml-form-embedSubmit button {
-            background: #fff !important;
-            color: #000 !important;
-        }
-        
-        .ml-form-embedSubmit button:hover {
-            transform: translateY(-2px) !important;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2) !important;
-        }
-        
-        .dark .ml-form-embedSubmit button:hover {
-            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2) !important;
-        }
-        
-        .ml-form-successBody {
-            background: transparent !important;
-        }
-        
-        .ml-form-successContent h4 {
-            color: #000 !important;
-            font-size: 1.5rem !important;
-        }
-        
-        .dark .ml-form-successContent h4 {
-            color: #fff !important;
-        }
-        
-        .ml-form-successContent p {
-            color: #000 !important;
-        }
-        
-        .dark .ml-form-successContent p {
-            color: #fff !important;
-        }
-    </style>
+    }
+  </style>
 </head>
-<body class="transition-colors duration-300">
-    <!-- EXACT dropdown menu from index page -->
-    <div class="dropdown-container">
-        <button class="dropdown-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
-            </svg>
-            Menu
-        </button>
-        <div class="dropdown-menu">
-            <a href="index.html" class="dropdown-item"> Home</a>
-            <a href="about.html" class="dropdown-item">About</a>
-            <a href="thewall.html" class="dropdown-item">The Wall</a>
-            <div class="coffee-item">
-                <span class="coffee-emoji">☕</span>
-                <span>Buy us coffee</span>
-            </div>
-        </div>
+<body>
+
+<!-- Topbar and sidebar from index page -->
+<header class="topbar">
+  <div class="logo flex items-center gap-3">
+    <img src="https://i.imgur.com/xvqBrl0.png" alt="Logo"/>
+    <div class="hidden md:block">
+      <div class="font-bold text-sm">Patrick Creations</div>
+      <div class="text-xs opacity-60">Another Patrick Creation</div>
     </div>
+  </div>
+  <!-- Menu button is now right-aligned with simplified styling -->
+  <button id="hamburger" class="p-2 text-2xl">☰</button>
+</header>
 
-    <!-- Fixed theme toggle button -->
-    <button id="themeToggle" class="fixed top-4 right-4 z-50 bg-gray-200 dark:bg-gray-800 rounded-full shadow-md transition duration-300">
-        <span id="themeIcon">🌙</span>
-    </button>
+<aside id="sidebar" class="sidebar">
+  <div>
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center gap-3">
+        <img src="https://i.imgur.com/xvqBrl0.png" alt="logo" class="h-10"/>
+        <div>
+          <div class="font-bold text-lg">Patrick Creations</div>
+          <div class="text-xs opacity-60">Navigation</div>
+        </div>
+      </div>
+      <!-- Close button with simplified styling -->
+      <button id="sidebarClose">✕</button>
+    </div>
+    <nav class="nav-links">
+      <a href="about.html">About</a>
+      <a href="tbb.html">The Brilliant Boy</a>
+      <a href="movies.html">Films</a>
+      <a href="thewall.html">The Wall</a>
+      <a href="contactus.html">Contact</a>
+    </nav>
+    <div class="mt-6">
+      <div class="text-xs opacity-80 mb-1">Theme</div>
+      <div class="flex items-center gap-2">
+        <span class="text-sm opacity-80">Light</span>
+        <div id="themeSwitch" class="toggle"><div class="knob"></div></div>
+        <span class="text-sm opacity-80">Dark</span>
+      </div>
+    </div>
+  </div>
+</aside>
 
-    <!-- Subtle edge framing elements -->
-    <div class="edge-frame frame-1"></div>
-    <div class="edge-frame frame-2"></div>
-    <div class="edge-frame frame-3"></div>
-    <div class="edge-frame frame-4"></div>
+<!-- Contact page content -->
+<div class="edge-frame frame-1"></div>
+<div class="edge-frame frame-2"></div>
+<div class="edge-frame frame-3"></div>
+<div class="edge-frame frame-4"></div>
 
-    <div class="container">
-        <header>
-            <h1>Welcome</h1>
-            <p class="subtitle">
-                At Patrick Creations, we're more than just a movie website - we're a community of film enthusiasts 
-                passionate about the art of storytelling. Connect with us to stay updated on the latest 
-                cinematic experiences, exclusive content, and behind-the-scenes magic.
-            </p>
-        </header>
-        
-        <div class="content">
-            <section class="newsletter">
-                <h2 class="newsletter-heading">Enter The Circle</h2>
-                <p class="newsletter-subheading">Identify with the vision. Stay connected.</p>
+<div class="container">
 
-                <!-- MailerLite Universal -->
-                <script>
-                    (function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[])
-                    .push(arguments);},l=d.createElement(e),l.async=1,l.src=u,
-                    n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})
-                    (window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
-                    ml('account', '1714498');
-                </script>
-                <!-- End MailerLite Universal -->
-
-                <!-- MailerLite Form -->
-                <div class="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-29284605">
-                  <div class="ml-form-align-center">
-                    <div class="ml-form-embedWrapper embedForm">
-                      <div class="ml-form-embedBody ml-form-embedBodyDefault row-form">
-                        <div class="ml-form-embedContent">
-                          <h4>JOIN THE CIRCLE</h4>
-                          <p>We Create. Identify with the Vision. Stay Connected.</p>
-                        </div>
-                        <form class="ml-block-form" action="https://assets.mailerlite.com/jsonp/1714498/forms/161980121732876188/subscribe" method="post" target="_blank">
-                          <div class="ml-form-formContent">
-                            <div class="ml-form-fieldRow ml-last-item">
-                              <div class="ml-field-group ml-field-email ml-validate-email ml-validate-required">
-                                <input aria-label="email" aria-required="true" type="email" class="form-control" name="fields[email]" placeholder="Email" autocomplete="email">
-                              </div>
-                            </div>
-                          </div>
-                          <div class="ml-form-recaptcha ml-validate-required">
-                            <div class="g-recaptcha" data-sitekey="6Lf1KHQUAAAAAFNKEX1hdSWCS3mRMv4FlFaNslaD"></div>
-                          </div>
-                          <input type="hidden" name="ml-submit" value="1">
-                          <div class="ml-form-embedSubmit">
-                            <button type="submit" class="primary">TAP IN</button>
-                          </div>
-                          <input type="hidden" name="anticsrf" value="true">
-                        </form>
-                      </div>
-                      <div class="ml-form-successBody row-success" style="display: none">
-                        <div class="ml-form-successContent">
-                          <h4>WELCOME!</h4>
-                          <p>You are now a part of a community that believes in you :)</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <script src="https://www.google.com/recaptcha/api.js"></script>
-                <script src="https://groot.mailerlite.com/js/w/webforms.min.js"></script>
-                <!-- MailerLite Embed END -->
-            </section>
+    
+    <div class="content">
+        <section class="newsletter">
+            <h2 class="newsletter-heading">Enter The Circle</h2>
+            <p class="newsletter-subheading">Identify with the vision. Stay connected.</p>
             
-            <section class="contact-info">
-                <h2 class="info-heading">Connect With Us</h2>
-                
-                <div class="info-item">
-                    <div class="info-title">Email</div>
-                    <div class="info-content">
-                        <a href="mailto:emmanuelowochipatrick@gmail.com" class="email-link">emmanuelowochipatrick@gmail.com</a>
-                    </div>
+            <form>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Your email address">
                 </div>
-                
-                <div class="info-item">
-                    <div class="info-title">Social Media</div>
-                    <div class="info-content">Follow us for daily updates</div>
-                    <div class="social-links">
-                        <a href="https://www.instagram.com/patrick.creations?igsh=ZmJyOTF2a20yM3Vj&utm_source=qr" target="_blank" rel="noopener noreferrer" class="social-icon">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="https://pin.it/D9bxPuxwH" target="_blank" rel="noopener noreferrer" class="social-icon">
-                            <i class="fab fa-pinterest"></i>
-                        </a>
-                        <a href="https://youtube.com/@patrick.creations?si=8HTHMVKjILtTpynOa" target="_blank" rel="noopener noreferrer" class="social-icon">
-                            <i class="fab fa-youtube"></i>
-                        </a>
-                        <a href="https://www.facebook.com/share/16dg9ryiUM/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" class="social-icon">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                    </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" placeholder="Your message"></textarea>
                 </div>
-            </section>
-        </div>
+                <button type="submit" class="submit-btn">TAP IN</button>
+            </form>
+        </section>
         
-        <div class="divider"></div>
-        
-        <footer>
-            <p>© 2025 Patrick Creations. All rights reserved.</p>
-            <p>Immerse yourself in the world of cinema.</p>
-        </footer>
+        <section class="contact-info">
+            <h2 class="info-heading">Connect With Us</h2>
+            
+            <div class="info-item">
+                <div class="info-title">Email</div>
+                <div class="info-content">
+                    <a href="mailto:emmanuelowochipatrick@gmail.com" class="email-link">emmanuelowochipatrick@gmail.com</a>
+                </div>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-title">Phone</div>
+                <div class="info-content">
+                    <a href="tel:+2348163696389">+234 816 369 6389</a>
+                </div>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-title">Social Media</div>
+                <div class="info-content">Follow us for daily updates</div>
+                <div class="social-links">
+                    <a href="https://www.instagram.com/patrick.creations?igsh=ZmJyOTF2a20yM3Vj&utm_source=qr" target="_blank" rel="noopener noreferrer" class="social-icon">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://pin.it/D9bxPuxwH" target="_blank" rel="noopener noreferrer" class="social-icon">
+                        <i class="fab fa-pinterest"></i>
+                    </a>
+                    <a href="https://youtube.com/@patrick.creations?si=8HTHMVKjILtTpynOa" target="_blank" rel="noopener noreferrer" class="social-icon">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="https://www.facebook.com/share/16dg9ryiUM/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" class="social-icon">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
     </div>
+    
+    <div class="divider"></div>
+    
+    <footer>
+        <p>© 2025 Patrick Creations. All rights reserved.</p>
+        <p>Immerse yourself in the world of cinema.</p>
+    </footer>
+</div>
 
-    <script>
-        // Theme toggle script
-        const toggleBtn = document.getElementById('themeToggle');
-        const icon = document.getElementById('themeIcon');
-        const body = document.body;
+<script>
+  // Sidebar functionality
+  const hamburger = document.getElementById('hamburger');
+  const sidebar = document.getElementById('sidebar');
+  const sidebarClose = document.getElementById('sidebarClose');
+  
+  hamburger.addEventListener('click', () => sidebar.classList.add('open'));
+  sidebarClose.addEventListener('click', () => sidebar.classList.remove('open'));
 
-        // Set initial theme
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
-            body.classList.add('dark');
-            icon.textContent = '☀️';
-        } else {
-            icon.textContent = '🌙';
-        }
+  // Theme toggle functionality
+  const themeSwitch = document.getElementById('themeSwitch');
+  const body = document.body;
+  
+  // Check for saved theme preference or respect OS preference
+  if (localStorage.getItem('theme') === 'dark' || 
+      (window.matchMedia('(prefers-color-scheme: dark)').matches && !localStorage.getItem('theme'))) {
+    body.classList.add('dark-theme');
+    themeSwitch.classList.add('on');
+  }
+  
+  themeSwitch.addEventListener('click', () => {
+    body.classList.toggle('dark-theme');
+    themeSwitch.classList.toggle('on');
+    
+    // Save the theme preference
+    if (body.classList.contains('dark-theme')) {
+      localStorage.setItem('theme', 'dark');
+    } else {
+      localStorage.setItem('theme', 'light');
+    }
+  });
+</script>
 
-        toggleBtn.addEventListener('click', () => {
-            if (body.classList.contains('dark')) {
-                body.classList.remove('dark');
-                localStorage.setItem('theme', 'light');
-                icon.textContent = '🌙';
-            } else {
-                body.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
-                icon.textContent = '☀️';
-            }
-        });
-    </script>
 </body>
 </html>

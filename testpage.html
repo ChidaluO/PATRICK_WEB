@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en" class="antialiased">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Patrick Creations — Fused</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Swiper -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+<style>
+  :root {
+    --bg:#fff; --fg:#0b0b0b; --muted:rgba(11,11,11,0.1); --accent-weak:rgba(11,11,11,0.06);
+    --label-opacity:0.92;
+  }
+  .dark-theme { --bg:#0b0b0b; --fg:#fff; --muted:rgba(255,255,255,0.06); --accent-weak:rgba(255,255,255,0.03); }
+  html,body{height:100%;margin:0;font-family:Inter,sans-serif;overflow-x:hidden;background:var(--bg);color:var(--fg);transition:.35s}
+  .topbar{height:72px;position:fixed;top:0;inset-inline:0;display:flex;align-items:center;justify-content:space-between;padding:0 1.25rem;z-index:60;background:transparent;backdrop-filter:blur(4px);}
+  .logo img{height:40px;width:auto;}
+  .sidebar{position:fixed;top:0;right:-420px;width:380px;height:100vh;background:var(--bg);color:var(--fg);box-shadow:-18px 0 40px rgba(0,0,0,0.08);transition:right .45s;z-index:80;padding:3rem 2rem;display:flex;flex-direction:column;justify-content:space-between;}
+  .sidebar.open{right:0;}
+  .nav-links a{display:block;font-weight:800;font-size:1.25rem;margin:1rem 0;color:inherit;text-decoration:none;}
+  .toggle{width:54px;height:30px;border-radius:999px;padding:4px;position:relative;cursor:pointer;background:var(--accent-weak);display:inline-flex;align-items:center;transition:.25s;}
+  .toggle .knob{width:22px;height:22px;border-radius:50%;background:var(--bg);transition:.28s;transform:translateX(0);}
+  .toggle.on{background:var(--fg);}
+  .toggle.on .knob{transform:translateX(24px);background:var(--bg);}
+  .hero{height:100vh;position:relative;display:flex;align-items:center;justify-content:center;}
+  .swiper{width:100%;height:100%;}
+  .swiper-slide{position:relative;height:100%;display:flex;align-items:center;justify-content:center;}
+  .slide-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:translateY(-6%) scale(1.03);filter:grayscale(100%) contrast(90%) brightness(.94);transition:transform 1s,filter .9s,opacity .9s;}
+  .slide-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,0.04), rgba(0,0,0,0.12));pointer-events:none;}
+  .slide-label{position:relative;z-index:10;padding:0 2rem;max-width:1400px;text-align:left;}
+  .slide-label h2{font-family:Cinzel,serif;font-weight:400;font-size:clamp(28px,5.2vw,84px);margin:0 0 .4rem;line-height:.92;}
+  .slide-label p{font-size:clamp(13px,1vw,16px);opacity:.7;margin:0;}
+  .section{min-height:72vh;display:flex;align-items:center;position:relative;padding:6rem 4%;gap:2rem;}
+  .section-inner{max-width:1200px;margin:0 auto;width:100%;display:block;}
+  .subtitle{font-weight:800;font-size:clamp(14px,2.2vw,30px);margin-bottom:1rem;opacity:.95;letter-spacing:.03em;}
+  .showcase{position:relative;height:56vh;border-radius:12px;overflow:hidden;background:var(--muted);display:block;transition:transform .6s,box-shadow .45s;text-decoration:none;color:inherit;}
+  .showcase img{width:100%;height:100%;object-fit:cover;transform:scale(1.05);transition:transform .85s ease,filter .6s ease;filter:grayscale(100%) brightness(.82);}
+  .label-left{left:1.6rem;top:1.6rem;position:absolute;}
+  .label-center{left:50%;top:50%;transform:translate(-50%,-50%);position:absolute;text-align:center;}
+  .label-bottom{left:1.6rem;bottom:1.6rem;position:absolute;}
+  .horizontal-scroll{display:flex;gap:1rem;overflow-x:auto;scrollbar-width:none;padding-bottom:1rem;}
+  .horizontal-scroll::-webkit-scrollbar{display:none;}
+  .poster{min-width:220px;width:220px;height:300px;border-radius:10px;overflow:hidden;position:relative;background:var(--muted);}
+  .poster img{width:100%;height:100%;object-fit:cover;transform:scale(1.02);filter:grayscale(100%) brightness(.85);transition:transform .6s,filter .6s;}
+  .poster .overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.45), rgba(0,0,0,.15));display:flex;align-items:center;justify-content:center;color:var(--bg);}
+  footer{padding:4rem 1.5rem;text-align:center;border-top:1px solid var(--accent-weak);margin-top:3rem;}
+  footer img{height:56px;margin:0 auto 1rem;display:block;}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="logo flex items-center gap-3">
+    <img src="https://i.imgur.com/xvqBrl0.png" alt="Logo"/>
+    <div class="hidden md:block">
+      <div class="font-bold text-sm">Patrick Creations</div>
+      <div class="text-xs opacity-60">Another Patrick Creation</div>
+    </div>
+  </div>
+  <button id="hamburger" class="p-2 text-2xl">☰</button>
+</header>
+
+<aside id="sidebar" class="sidebar">
+  <div>
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center gap-3">
+        <img src="https://i.imgur.com/xvqBrl0.png" alt="logo" class="h-10"/>
+        <div>
+          <div class="font-bold text-lg">Patrick Creations</div>
+          <div class="text-xs opacity-60">Navigation</div>
+        </div>
+      </div>
+      <button id="sidebarClose">✕</button>
+    </div>
+    <nav class="nav-links">
+      <a href="about.html">About</a>
+      <a href="tbb.html">The Brilliant Boy</a>
+      <a href="movies.html">Films</a>
+      <a href="thewall.html">The Wall</a>
+      <a href="contactus.html">Contact</a>
+    </nav>
+    <div class="mt-6">
+      <div class="text-xs opacity-80 mb-1">Theme</div>
+      <div class="flex items-center gap-2">
+        <span class="text-sm opacity-80">Light</span>
+        <div id="themeSwitch" class="toggle"><div class="knob"></div></div>
+        <span class="text-sm opacity-80">Dark</span>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<main>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <img class="slide-img" src="https://source.unsplash.com/1600x900/?cinema,film" alt="">
+          <div class="slide-overlay"></div>
+          <div class="slide-label"><h2>THE BRILLIANT BOY</h2><p>Short film — an intimate look.</p></div>
+        </div>
+        <div class="swiper-slide">
+          <img class="slide-img" src="https://source.unsplash.com/1600x900/?director,set" alt="">
+          <div class="slide-overlay"></div>
+          <div class="slide-label"><h2>MAKING ART</h2><p>Behind the scenes — edited moments.</p></div>
+        </div>
+        <div class="swiper-slide">
+          <img class="slide-img" src="https://source.unsplash.com/1600x900/?actor,portrait" alt="">
+          <div class="slide-overlay"></div>
+          <div class="slide-label"><h2>NEW RELEASES</h2><p>News & festival highlights.</p></div>
+        </div>
+      </div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </div>
+  </section>
+
+  <!-- Film Section -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="subtitle">Film</div>
+      <a class="showcase" href="tbb.html"><img src="https://source.unsplash.com/1200x800/?child,portrait,study"><div class="label label-left">FILM</div></a>
+    </div>
+  </section>
+
+  <!-- Latest News Section -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="subtitle">Latest News</div>
+      <div class="horizontal-scroll">
+        <a class="showcase" href="#" style="min-width:420px"><img src="https://i.imgur.com/drVM0Qy.jpeg"><div class="label label-right">NEWS</div></a>
+        <a class="showcase" href="#" style="min-width:420px"><img src="https://i.imgur.com/S9gWSoZ.png"><div class="label label-right">NEWS</div></a>
+        <a class="showcase" href="#" style="min-width:420px"><img src="https://i.imgur.com/4S993Es.jpeg"><div class="label label-right">NEWS</div></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Events Section (horizontal-scroll style like News) -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="subtitle">Events</div>
+      <div class="horizontal-scroll">
+        <a class="showcase" href="#"><img src="https://source.unsplash.com/random/420x280?trending"><div class="label label-bottom">Poster Contest</div></a>
+        <a class="showcase" href="#"><img src="https://source.unsplash.com/random/420x280?popular"><div class="label label-bottom">Subscriber Giveaway</div></a>
+        <a class="showcase" href="#"><img src="https://source.unsplash.com/random/420x280?entertainment"><div class="label label-bottom">Watch Your Story</div></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- New Extra Section -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="subtitle">Highlights</div>
+      <a class="showcase" href="#"><img src="https://source.unsplash.com/1200x800/?highlight,art"><div class="label label-left">HIGHLIGHTS</div></a>
+    </div>
+  </section>
+
+  <!-- Shop Section -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="subtitle">Shop</div>
+      <a class="showcase" href="shop.html"><img src="https://source.unsplash.com/1200x800/?merch,poster"><div class="label label-bottom">SHOP</div></a>
+    </div>
+  </section>
+
+  <footer>
+    <img src="https://i.imgur.com/xvqBrl0.png" alt="logo">
+    <p class="font-bold">Patrick Creations</p>
+    <p class="opacity-70">Contact: <a href="mailto:emmanuelowochiopatrick@gmail.com" class="underline">emmanuelowochiopatrick@gmail.com</a> | <a href="tel:+2348163696389" class="underline">+234 816 369 6389</a></p>
+    <p class="font-bold opacity-80">Another Patrick Creation</p>
+    <p class="opacity-60">Emmanuel Patrick, Muneer Abdulkadir, Chidalu Okeke</p>
+    <p class="opacity-40">&copy; 2025 Patrick Creations. All rights reserved.</p>
+  </footer>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+  const swiper = new Swiper('.swiper',{loop:true,autoplay:{delay:5000},navigation:{nextEl:'.swiper-button-next',prevEl:'.swiper-button-prev'}});
+  const hamburger=document.getElementById('hamburger');
+  const sidebar=document.getElementById('sidebar');
+  const sidebarClose=document.getElementById('sidebarClose');
+  hamburger.addEventListener('click',()=>sidebar.classList.add('open'));
+  sidebarClose.addEventListener('click',()=>sidebar.classList.remove('open'));
+
+  // Theme toggle
+  const themeSwitch = document.getElementById('themeSwitch');
+  themeSwitch.addEventListener('click', () => {
+    document.documentElement.classList.toggle('dark-theme');
+    themeSwitch.classList.toggle('on');
+  });
+</script>
+
+</body>
+</html>
