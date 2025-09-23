@@ -84,7 +84,7 @@
       <a href="about.html">About</a>
       <a href="tbb.html">The Brilliant Boy</a>
       <a href="movies.html">Films</a>
-      <a href="thewall.html">The Wall</a>
+      <a href="thewalltest.html">The Wall</a>
       <a href="contactus.html">Contact</a>
     </nav>
     <div class="mt-6">
@@ -155,6 +155,7 @@
       </div>
     </div>
   </section>
+  
 
   <!-- New Extra Section -->
   <section class="section">
@@ -163,6 +164,110 @@
       <a class="showcase" href="#"><img src="https://source.unsplash.com/1200x800/?highlight,art"><div class="label label-left">HIGHLIGHTS</div></a>
     </div>
   </section>
+
+  <!-- Polished Text Carousel Section -->
+<section class="section">
+  <div class="section-inner">
+    <div class="subtitle">Featured</div>
+    <div id="text-carousel" class="relative w-full max-w-3xl h-[320px] mx-auto overflow-visible mt-8">
+      
+      <!-- Image -->
+      <img id="carousel-image" src="" alt="carousel graphic"
+           class="absolute -top-44 right-12 w-[380px] object-contain drop-shadow-2xl rounded-md transform-gpu z-10 transition-all duration-900" />
+
+      <!-- Card -->
+      <div class="absolute inset-0 bg-[var(--bg)] border border-[var(--accent-weak)] rounded-xl shadow-xl z-30 flex items-center px-10 transition-colors duration-500">
+        <div id="carousel-text" class="max-w-sm relative z-40 text-left">
+          <h2 id="carousel-title" class="font-serif text-4xl font-normal mb-3" style="font-family: 'Cinzel, serif';"></h2>
+          <p id="carousel-description" class="text-sm opacity-70 mb-4" style="font-family: 'Inter, sans-serif';"></p>
+          <button class="rounded-full px-4 py-1 text-xs tracking-wide border border-[var(--fg)] hover:bg-[var(--fg)] hover:text-[var(--bg)] transition">Learn More</button>
+        </div>
+
+        <!-- Dots -->
+        <div id="carousel-dots" class="absolute bottom-4 left-10 flex space-x-2 z-50"></div>
+      </div>
+
+      <!-- Top mask -->
+      <div class="pointer-events-none absolute left-0 right-0 top-0 h-12 z-40 rounded-t-xl overflow-hidden">
+        <div class="w-full h-full" style="background: linear-gradient(180deg, rgba(255,255,255,0.0), rgba(255,255,255,0.02)); mix-blend-mode: normal;"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const items = [
+    {
+      title: "Chernobyl",
+      description: "A five-part miniseries dramatizing the story of the 1986 nuclear accident, one of the worst man-made catastrophes in history.",
+      image: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f",
+    },
+    {
+      title: "The Art of Dreams",
+      description: "Explore the journey of creativity through surreal stories and evocative imagery.",
+      image: "https://images.unsplash.com/photo-1544936421-9f86f0e2f1f8",
+    },
+    {
+      title: "Legends Reborn",
+      description: "A fantasy saga reimagining mythic heroes and epic battles for a new generation.",
+      image: "https://images.unsplash.com/photo-1528209392022-5d7c8c2f5e4b",
+    },
+  ];
+
+  let index = 0;
+  const imageEl = document.getElementById('carousel-image');
+  const titleEl = document.getElementById('carousel-title');
+  const descEl = document.getElementById('carousel-description');
+  const dotsEl = document.getElementById('carousel-dots');
+
+  function updateCarousel() {
+    // Image fade + vertical motion
+    imageEl.style.opacity = 0;
+    imageEl.style.transform = "translateY(-80px)";
+    setTimeout(() => {
+      imageEl.src = items[index].image;
+      imageEl.style.opacity = 1;
+      imageEl.style.transform = "translateY(0)";
+    }, 300);
+
+    // Text fade + horizontal slide
+    titleEl.style.opacity = 0;
+    descEl.style.opacity = 0;
+    titleEl.style.transform = "translateX(50px)";
+    descEl.style.transform = "translateX(50px)";
+    setTimeout(() => {
+      titleEl.textContent = items[index].title;
+      descEl.textContent = items[index].description;
+      titleEl.style.opacity = 1;
+      descEl.style.opacity = 1;
+      titleEl.style.transform = "translateX(0)";
+      descEl.style.transform = "translateX(0)";
+    }, 300);
+
+    // Dots
+    dotsEl.innerHTML = '';
+    items.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.className = `w-2.5 h-2.5 rounded-full transition-all ${i === index ? 'bg-[var(--fg)] scale-110' : 'bg-[var(--muted)] hover:bg-[var(--fg)]/60'}`;
+      dot.addEventListener('click', () => { index = i; updateCarousel(); resetInterval(); });
+      dotsEl.appendChild(dot);
+    });
+  }
+
+  function nextSlide() {
+    index = (index + 1) % items.length;
+    updateCarousel();
+  }
+
+  let carouselInterval = setInterval(nextSlide, 5000);
+  function resetInterval() {
+    clearInterval(carouselInterval);
+    carouselInterval = setInterval(nextSlide, 5000);
+  }
+
+  updateCarousel();
+</script>
+
 
   <!-- Shop Section -->
   <section class="section">
