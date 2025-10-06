@@ -1,411 +1,483 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" class="antialiased">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Movie Page</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Patrick Creations — Movie</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind (utility support) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Swiper for hero & cast carousel -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
   <style>
-    :root {
-      --bg: #ffffff;
-      --text: #000000;
-      --border: #000000;
-      --button-bg: #ffffff;
-      --button-text: #000000;
-      --button-border: #000000;
-      --footer-bg: #f5f5f5;
-      --footer-text: #000000;
-      --footer-secondary: #666666;
+    :root{
+      --bg:#fff; --fg:#0b0b0b; --muted:rgba(11,11,11,0.08); --accent-weak:rgba(11,11,11,0.04);
+      --glass: rgba(255,255,255,0.6);
+      --label-opacity:0.92;
     }
+    .dark-theme { --bg:#0b0b0b; --fg:#fff; --muted:rgba(255,255,255,0.06); --accent-weak:rgba(255,255,255,0.03); --glass: rgba(0,0,0,0.5); }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: var(--bg);
-      color: var(--text);
-      transition: all 0.3s ease;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;color:var(--fg);background:var(--bg);transition:background .35s,color .35s;overflow-x:hidden;}
 
-    /* Header */
-    header {
-      text-align: center;
-      padding: 2rem 0;
-    }
+    /* Topbar */
+    .topbar{height:72px;position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:0 1.25rem;z-index:60;background:transparent;backdrop-filter:blur(6px);}
+    .logo img{height:40px;width:auto;display:block;}
 
-    header a {
-      text-decoration: none;
-    }
+    /* Sidebar */
+    .sidebar{position:fixed;top:0;right:-100%;width:100%;max-width:380px;height:100vh;background:var(--bg);color:var(--fg);box-shadow:-18px 0 40px rgba(0,0,0,0.08);transition:right .45s;z-index:80;padding:3rem 2rem;display:flex;flex-direction:column;justify-content:space-between;}
+    .sidebar.open{right:0;}
+    .nav-links a{display:block;font-weight:800;font-size:clamp(1rem, 3.5vw, 1.125rem);margin:1rem 0;color:inherit;text-decoration:none}
 
-    /* Content Container */
-    .content-container {
-      width: 90%;
-      max-width: 1200px;
-      margin: 0 auto;
-      flex: 1;
-    }
+    /* Toggle */
+    .toggle{width:54px;height:30px;border-radius:999px;padding:4px;position:relative;cursor:pointer;background:var(--accent-weak);display:inline-flex;align-items:center;transition:.25s;}
+    .toggle .knob{width:22px;height:22px;border-radius:50%;background:var(--bg);transition:.28s;transform:translateX(0);}
+    .toggle.on{background:var(--fg);}
+    .toggle.on .knob{transform:translateX(24px);background:var(--bg);}
 
-    /* Stills */
-    .stills {
-      display: flex;
-      justify-content: center;
-      gap: 1.5rem;
-      padding: 1rem 0 2rem;
-    }
+    main{padding-top:72px;}
 
-    .still {
-      width: 200px;
-      height: 120px;
-      object-fit: cover;
-      transition: transform 0.3s ease;
-      cursor: pointer;
-      border-radius: 4px;
-    }
+    /* Hero / Swiper */
+    .hero {height:68vh;position:relative;display:flex;align-items:flex-end;padding:2.5rem;overflow:hidden;}
+    .hero .slide-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(30%) contrast(95%) brightness(.9);transform:scale(1.03);transition:transform .9s,filter .6s;}
+    .hero .slide-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.35));pointer-events:none;}
+    .hero .hero-content{position:relative;z-index:10;max-width:1200px;color:var(--bg);padding:2rem;display:flex;flex-direction:column;gap:.75rem;}
+    .hero h1{font-family:Cinzel,serif;font-weight:400;font-size:clamp(28px,5vw,64px);line-height:0.92;margin:0;color:var(--bg);text-shadow:0 8px 30px rgba(0,0,0,0.45);}
+    .meta{font-size:0.95rem;opacity:.9;margin-top:.25rem;color:var(--bg);}
 
-    .still:hover {
-      transform: scale(1.05);
-    }
+    .hero-cta{display:flex;gap:0.75rem;margin-top:1rem;}
+    .btn {display:inline-flex;align-items:center;gap:.6rem;padding:.6rem 1rem;border-radius:999px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:var(--bg);cursor:pointer;font-weight:600;backdrop-filter:blur(6px);transition:transform .18s,opacity .18s;}
+    .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.18);opacity:.95}
+    .btn:active{transform:translateY(1px);}
 
-    /* Hero */
-    .hero {
-      width: 100%;
-      aspect-ratio: 16/9;
-      background: #e0e0e0; /* Placeholder for your image */
-      position: relative;
-      margin-bottom: 2rem;
-    }
+    /* Horizontal stills */
+    .stills-wrap{padding:2rem 1rem;max-width:1400px;margin:0 auto;}
+    .horizontal-scroll{display:flex;gap:1rem;overflow-x:auto;padding-bottom:1rem;scrollbar-width:none;}
+    .horizontal-scroll::-webkit-scrollbar{display:none;}
+    .still-card{min-width:320px;height:190px;border-radius:12px;overflow:hidden;position:relative;background:var(--muted);cursor:pointer;flex:0 0 auto;transition:transform .45s,box-shadow .45s;}
+    .still-card img{width:100%;height:100%;object-fit:cover;transform:scale(1.06);filter:grayscale(60%) brightness(.85);transition:transform .6s,filter .45s;}
+    .still-card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(0,0,0,0.14);}
+    .still-card:hover img{transform:scale(1.12);filter:grayscale(0%) brightness(1);}
 
-    /* Buttons */
-    .btn {
-      padding: 0.6rem 1.2rem;
-      background: var(--button-bg);
-      border: 1px solid var(--button-border);
-      color: var(--button-text);
-      cursor: pointer;
-      border-radius: 25px;
-      font-family: 'Inter', sans-serif;
-      font-weight: 500;
-      transition: all 0.2s ease;
-    }
+    .still-label{position:absolute;left:1.2rem;bottom:1.1rem;color:var(--bg);font-family:Cinzel,serif;font-size:.95rem;text-shadow:0 10px 20px rgba(0,0,0,0.45)}
 
-    .btn:hover {
-      opacity: 0.9;
-    }
+    /* Info section */
+    .section{padding:4rem 1rem;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 380px;gap:2rem;align-items:start;}
+    @media (max-width: 900px){ .section{grid-template-columns:1fr;}}
+    .synopsis{font-size:1rem;line-height:1.6;color:var(--fg);background:transparent}
+    .synopsis .excerpt{max-height:6.5rem;overflow:hidden;transition:max-height .4s ease;}
+    .synopsis .excerpt.open{max-height:400px;}
+    .expand-btn{background:none;border:none;color:var(--fg);cursor:pointer;font-weight:700;padding:0;margin-left:.5rem}
 
-    .btn-outline {
-      background: transparent;
-    }
+    .credits-card{background:var(--muted);padding:1.25rem;border-radius:10px;border:1px solid var(--accent-weak);position:sticky;top:92px;}
+    .credits-card h4{font-family:Cinzel,serif;margin:0 0 .5rem;font-weight:400}
+    .credits-line{margin:0.25rem 0;font-size:.95rem;opacity:.95}
 
-    .trailer-btn {
-      position: absolute;
-      bottom: 20px;
-      left: 20px;
-    }
+    /* Cast carousel */
+    .cast-section{padding:3rem 1rem 6rem;max-width:1200px;margin:0 auto;}
+    .cast-title{font-family:Cinzel,serif;font-size:1.25rem;margin-bottom:1rem}
+    .swiper .swiper-slide{display:flex;align-items:center;justify-content:center}
+    .cast-card{width:220px;border-radius:12px;overflow:hidden;background:var(--muted);position:relative;text-align:center;padding-bottom:1rem;box-shadow:0 14px 30px rgba(0,0,0,0.08)}
+    .cast-card img{width:100%;height:320px;object-fit:cover;display:block}
+    .cast-meta{padding:.75rem;font-size:.95rem}
 
-    /* Info Section */
-    .info-section {
-      display: flex;
-      gap: 2rem;
-      margin-bottom: 3rem;
-    }
-
-    .info-left {
-      flex: 1;
-    }
-
-    .info-right {
-      flex: 1;
-    }
-
-    .synopsis {
-      margin-bottom: 1.5rem;
-      line-height: 1.5;
-    }
-
-    .full-synopsis {
-      display: none;
-      margin-top: 0.5rem;
-    }
-
-    .expand-btn {
-      color: var(--text);
-      background: none;
-      border: none;
-      padding: 0;
-      cursor: pointer;
-      font-family: inherit;
-    }
-
-    .credits {
-      margin-top: 1.5rem;
-      text-align: right;
-    }
-
-    .credits h3 {
-      margin-bottom: 0.5rem;
-    }
-
-    .credits p {
-      margin: 0.3rem 0;
-    }
-
-    .cast-list {
-      list-style-type: none;
-      padding: 0;
-      margin: 1rem 0 0 0;
-    }
-
-    .cast-list li {
-      margin-bottom: 0.5rem;
-    }
-
-    /* Two Column Section */
-    .two-column {
-      display: flex;
-      gap: 2rem;
-      margin-bottom: 3rem;
-      align-items: center;
-    }
-
-    .column-left {
-      flex: 1;
-    }
-
-    .column-right {
-      flex: 1;
-      display: flex;
-      justify-content: flex-end;
-    }
-
-    .experience-btn {
-      padding: 0.6rem 2rem;
-      height: fit-content;
-    }
-
-    .experience-btn:hover {
-      transform: scale(1.05);
-    }
-
-    /* Carousel */
-    .carousel {
-      position: relative;
-      width: 100%;
-      height: 250px;
-    }
-
-    .actor {
-      width: 120px;
-      height: 180px;
-      object-fit: cover;
-      position: absolute;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      border-radius: 4px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-
-    .actor.active {
-      z-index: 3;
-      transform: scale(1.2);
-      left: 50%;
-      margin-left: -60px;
-    }
-
-    .actor.prev {
-      z-index: 2;
-      transform: scale(0.9);
-      left: 20%;
-      margin-left: -60px;
-      opacity: 0.8;
-    }
-
-    .actor.next {
-      z-index: 2;
-      transform: scale(0.9);
-      left: 80%;
-      margin-left: -60px;
-      opacity: 0.8;
-    }
+    /* CTA section */
+    .cta-wrap{padding:4rem 1rem;background:linear-gradient(90deg,var(--muted),transparent);display:flex;align-items:center;justify-content:center;}
+    .cta-box{max-width:900px;text-align:center;padding:2rem;border-radius:14px;background:linear-gradient(180deg,var(--bg),transparent);border:1px solid var(--accent-weak)}
+    .cta-box h3{font-family:Cinzel,serif;font-size:1.75rem;margin:0 0 0.75rem}
+    .cta-box p{opacity:.8;margin-bottom:1.25rem}
 
     /* Footer */
-    footer {
-      width: 100%;
-      background: var(--footer-bg);
-      color: var(--footer-text);
-      text-align: center;
-      padding: 2rem 1rem;
-      margin-top: auto;
-    }
+    footer{padding:3rem 1rem;text-align:center;border-top:1px solid var(--accent-weak);margin-top:3rem}
+    footer img{height:56px;margin:0 auto 1rem;display:block;}
 
-    .footer-logo {
-      height: 4rem;
-      object-fit: contain;
-      margin-bottom: 1rem;
-    }
-
-    .footer-title {
-      font-size: 1.25rem;
-      font-weight: bold;
-      margin-bottom: 0.5rem;
-    }
-
-    .footer-contact {
-      font-size: 0.875rem;
-      color: var(--footer-secondary);
-      margin-bottom: 0.5rem;
-    }
-
-    .footer-contact a {
-      color: inherit;
-      text-decoration: underline;
-    }
-
-    .footer-social {
-      display: flex;
-      justify-content: center;
-      gap: 1.5rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .footer-tagline {
-      font-weight: 600;
-      font-size: 0.875rem;
-      margin-top: 0.5rem;
-    }
-
-    .footer-credits {
-      font-size: 0.75rem;
-      color: var(--footer-secondary);
-      margin-top: 0.25rem;
-    }
-
-    .footer-copyright {
-      font-size: 0.75rem;
-      color: var(--footer-secondary);
-      margin-top: 0.5rem;
-    }
+    /* Utility */
+    .muted-small{opacity:.7;font-size:.92rem}
+    button:focus{outline:2px solid rgba(11,11,11,0.12);outline-offset:2px}
   </style>
 </head>
 <body>
-  <header>
-    <a href="index.html"><img src="https://i.imgur.com/xvqBrl0.png" alt="Logo" width="150"></a>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="logo flex items-center gap-3">
+      <a href="index.html" class="flex items-center gap-3" aria-label="Patrick Creations home">
+        <img src="https://i.imgur.com/xvqBrl0.png" alt="logo"/>
+        <div class="hidden md:block">
+          <div class="font-bold text-sm" style="color:var(--fg)">Patrick Creations</div>
+          <div class="text-xs opacity-60" style="color:var(--fg)">Another Patrick Creation</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <button id="hamburger" class="p-2 text-2xl" aria-label="Open menu">☰</button>
+    </div>
   </header>
 
-  <div class="content-container">
-    <div class="stills">
-      <img src="still1.jpg" class="still" alt="Movie still 1">
-      <img src="still2.jpg" class="still" alt="Movie still 2">
-      <img src="still3.jpg" class="still" alt="Movie still 3">
-    </div>
-
-    <div class="hero">
-      <button class="btn trailer-btn">Watch Trailer</button>
-    </div>
-
-    <div class="info-section">
-      <div class="info-left">
-        <div class="synopsis">
-          <p>
-            In a world where dreams become reality, a reluctant hero must confront their past to save the future...
-            <button class="expand-btn">...</button>
-          </p>
-          <div class="full-synopsis">
-            <p>When ancient artifacts begin appearing in modern-day cities, archaeologist Dr. Elena Voss discovers they're fragments of a device that can reshape reality. Pursued by a shadowy organization, she teams up with a rogue physicist to prevent the world from unraveling at the seams.</p>
+  <!-- Sidebar -->
+  <aside id="sidebar" class="sidebar" aria-hidden="true">
+    <div>
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-3">
+          <img src="https://i.imgur.com/xvqBrl0.png" alt="logo" class="h-10"/>
+          <div>
+            <div class="font-bold text-lg">Patrick Creations</div>
+            <div class="text-xs opacity-60">Navigation</div>
           </div>
         </div>
-        <div class="cast">
-          <h3>Cast</h3>
-          <ul class="cast-list">
-            <li><strong>Alexandra Daddario</strong> as Dr. Elena Voss</li>
-            <li><strong>John David Washington</strong> as Marcus Cole</li>
-            <li><strong>Gong Li</strong> as Minister Qiang</li>
-            <li><strong>Wagner Moura</strong> as Professor Rafael Ortiz</li>
-          </ul>
-        </div>
+        <button id="sidebarClose" aria-label="Close menu">✕</button>
       </div>
-      <div class="info-right">
-        <div class="credits">
-          <h3>Director</h3>
-          <p>Denis Villeneuve</p>
-          
-          <h3>Writer</h3>
-          <p>Eric Roth</p>
+
+      <nav class="nav-links" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="tbb.html">The Brilliant Boy</a>
+        <a href="movies.html">Films</a>
+        <a href="lookbook.html">Lookbook</a>
+        <a href="about.html">About</a>
+        <a href="contactus.html">Contact</a>
+      </nav>
+
+      <div class="mt-6">
+        <div class="text-xs opacity-80 mb-1">Theme</div>
+        <div class="flex items-center gap-2">
+          <span class="text-sm opacity-80">Light</span>
+          <div id="themeSwitch" class="toggle" role="button" aria-pressed="false" tabindex="0"><div class="knob"></div></div>
+          <span class="text-sm opacity-80">Dark</span>
         </div>
       </div>
     </div>
+  </aside>
 
-    <div class="two-column">
-      <div class="column-left">
-        <div class="carousel">
-          <img src="actor1.jpg" class="actor active" alt="Actor 1">
-          <img src="actor2.jpg" class="actor next" alt="Actor 2">
-          <img src="actor3.jpg" class="actor prev" alt="Actor 3">
+  <main>
+
+    <!-- HERO (Swiper) -->
+    <section class="hero">
+      <div class="swiper my-hero-swiper" aria-hidden="false">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <img class="slide-img" src="https://source.unsplash.com/1600x900/?cinematic,landscape" alt="Hero still 1">
+            <div class="slide-overlay"></div>
+
+            <div class="hero-content">
+              <h1>THE WAYWARD DEVICE</h1>
+              <div class="meta muted-small">Feature — 2025 • Director: Denis Villeneuve • 2h 18m</div>
+
+              <div class="hero-cta">
+                <button id="watchTrailer" class="btn" aria-controls="trailerModal">▶ Watch Trailer</button>
+                <a href="#experience" class="btn secondary">Experience</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="swiper-slide">
+            <img class="slide-img" src="https://source.unsplash.com/1600x900/?actor,portrait" alt="Hero still 2">
+            <div class="slide-overlay"></div>
+
+            <div class="hero-content">
+              <h1>A STORY ABOUT MEMORY</h1>
+              <div class="meta muted-small">Short film — Noir inspired • Premiere: 2025</div>
+
+              <div class="hero-cta">
+                <button id="watchTrailer2" class="btn" aria-controls="trailerModal">▶ Watch Trailer</button>
+                <a href="#experience" class="btn secondary">Book Screening</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- navigation -->
+        <div class="swiper-button-prev" aria-label="Previous slide"></div>
+        <div class="swiper-button-next" aria-label="Next slide"></div>
+      </div>
+    </section>
+
+    <!-- Stills / Horizontal showcase -->
+    <section class="stills-wrap" aria-labelledby="stills-heading">
+      <h2 id="stills-heading" class="font-serif text-xl mb-4" style="font-family:Cinzel,serif">Stills</h2>
+      <div class="horizontal-scroll" id="stills-scroll">
+        <div class="still-card" data-src="https://source.unsplash.com/1200x800/?movie,set">
+          <img src="https://source.unsplash.com/800x600/?movie,set" alt="Still 1">
+          <div class="still-label">On Set — Day</div>
+        </div>
+        <div class="still-card" data-src="https://source.unsplash.com/1200x800/?actor,portrait">
+          <img src="https://source.unsplash.com/800x600/?actor,portrait" alt="Still 2">
+          <div class="still-label">Quiet Moment</div>
+        </div>
+        <div class="still-card" data-src="https://source.unsplash.com/1200x800/?cinematic,lighting">
+          <img src="https://source.unsplash.com/800x600/?cinematic,lighting" alt="Still 3">
+          <div class="still-label">Golden Hour</div>
+        </div>
+        <div class="still-card" data-src="https://source.unsplash.com/1200x800/?film,crew">
+          <img src="https://source.unsplash.com/800x600/?film,crew" alt="Still 4">
+          <div class="still-label">Behind Scenes</div>
         </div>
       </div>
-      <div class="column-right">
-        <button class="btn experience-btn">Experience</button>
+    </section>
+
+    <!-- Info / Synopsis & Credits -->
+    <section class="section" aria-labelledby="info-heading">
+      <div>
+        <h2 id="info-heading" class="subtitle font-serif text-2xl mb-4" style="font-family:Cinzel,serif">Synopsis</h2>
+        <div class="synopsis">
+          <div class="excerpt" id="excerpt">
+            <p>
+              In a world where dreams become reality, a reluctant hero must confront their past to save the future.
+              Archaeologist Dr. Elena Voss discovers fragments of an ancient device able to reshape memory and reality.
+              Pursued by a shadowy organization, she teams with a rogue physicist and must choose what the world will remember.
+            </p>
+          </div>
+
+          <button id="expandBtn" class="expand-btn" aria-expanded="false">Read more</button>
+
+          <div class="mt-6">
+            <h3 class="font-semibold mb-2">Where to watch</h3>
+            <p class="muted-small">Festival circuit • Select Cinemas • VOD coming soon</p>
+          </div>
+
+          <div class="mt-6">
+            <h3 class="font-semibold mb-2">Cast</h3>
+            <ul class="list-disc pl-5">
+              <li><strong>Alexandra Daddario</strong> — Dr. Elena Voss</li>
+              <li><strong>John David Washington</strong> — Marcus Cole</li>
+              <li><strong>Gong Li</strong> — Minister Qiang</li>
+              <li><strong>Wagner Moura</strong> — Professor Rafael Ortiz</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <aside class="credits-card" aria-labelledby="credits-heading">
+        <h4 id="credits-heading">Credits</h4>
+        <div class="credits-line"><strong>Director</strong><div class="muted-small">Denis Villeneuve</div></div>
+        <div class="credits-line"><strong>Writer</strong><div class="muted-small">Eric Roth</div></div>
+        <div class="credits-line"><strong>Producer</strong><div class="muted-small">Patrick Creations</div></div>
+        <div class="credits-line mt-3"><strong>Running time</strong><div class="muted-small">2h 18m</div></div>
+      </aside>
+    </section>
+
+    <!-- Cast carousel -->
+    <section class="cast-section" aria-labelledby="cast-heading">
+      <h3 id="cast-heading" class="cast-title">Cast</h3>
+
+      <div class="swiper cast-swiper" aria-roledescription="carousel">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <div class="cast-card" role="group" aria-label="Alexandra Daddario">
+              <img src="https://source.unsplash.com/400x600/?female,portrait" alt="Alexandra Daddario">
+              <div class="cast-meta">
+                <div class="font-semibold">Alexandra Daddario</div>
+                <div class="muted-small">Dr. Elena Voss</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="swiper-slide">
+            <div class="cast-card" role="group" aria-label="John David Washington">
+              <img src="https://source.unsplash.com/400x600/?male,portrait" alt="John David Washington">
+              <div class="cast-meta">
+                <div class="font-semibold">John David Washington</div>
+                <div class="muted-small">Marcus Cole</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="swiper-slide">
+            <div class="cast-card" role="group" aria-label="Gong Li">
+              <img src="https://source.unsplash.com/400x600/?asian,portrait" alt="Gong Li">
+              <div class="cast-meta">
+                <div class="font-semibold">Gong Li</div>
+                <div class="muted-small">Minister Qiang</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="swiper-slide">
+            <div class="cast-card" role="group" aria-label="Wagner Moura">
+              <img src="https://source.unsplash.com/400x600/?actor,portrait" alt="Wagner Moura">
+              <div class="cast-meta">
+                <div class="font-semibold">Wagner Moura</div>
+                <div class="muted-small">Professor Rafael Ortiz</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- navigation -->
+        <div class="swiper-button-prev" aria-label="Previous cast"></div>
+        <div class="swiper-button-next" aria-label="Next cast"></div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="experience" class="cta-wrap">
+      <div class="cta-box">
+        <h3>Experience the film</h3>
+        <p>Join the screening list, book a private viewing, or bring the film to your festival.</p>
+        <div style="display:flex;gap:.75rem;justify-content:center;margin-top:1rem;">
+          <a href="mailto:emmanuelowochiopatrick@gmail.com" class="btn">Book Screening</a>
+          <a href="#" class="btn secondary">Festival Info</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <img src="https://i.imgur.com/xvqBrl0.png" alt="Patrick Creations logo">
+      <p class="font-bold">Patrick Creations</p>
+      <p class="opacity-70">Contact: <a href="mailto:emmanuelowochiopatrick@gmail.com" class="underline">emmanuelowochiopatrick@gmail.com</a> | <a href="tel:+2348163696389" class="underline">+234 816 369 6389</a></p>
+      <p class="font-bold opacity-80">Another Patrick Creation</p>
+      <p class="opacity-40">&copy; 2025 Patrick Creations. All rights reserved.</p>
+    </footer>
+
+  </main>
+
+  <!-- Trailer Modal (simple) -->
+  <div id="trailerModal" aria-hidden="true" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.8);z-index:120;opacity:0;pointer-events:none;transition:opacity .25s;">
+    <div role="dialog" aria-modal="true" style="max-width:900px;width:90%;background:transparent;position:relative;">
+      <button id="closeTrailer" aria-label="Close trailer" style="position:absolute;top:-3.5rem;right:0;background:none;border:none;color:var(--bg);font-size:2rem;cursor:pointer">✕</button>
+      <!-- Replace the iframe src with your trailer -->
+      <div style="padding-top:56.25%;position:relative;border-radius:8px;overflow:hidden;">
+        <iframe id="trailerFrame" src="" style="position:absolute;inset:0;width:100%;height:100%;border:0;" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
     </div>
   </div>
 
-  <footer>
-    <div class="flex justify-center mb-4">
-      <img src="https://i.imgur.com/xvqBrl0.png" alt="Company Logo" class="footer-logo" />
-    </div>
-    <p class="footer-title">Patrick Creations</p>
-    <p class="footer-contact">
-      Contact:
-      <a href="mailto:emmanuelowochiopatrick@gmail.com" class="underline">emmanuelowochiopatrick@gmail.com</a> &nbsp;|&nbsp;
-      <a href="tel:+2348163696389" class="underline">+234 816 369 6389</a>
-    </p>
-    <div class="footer-social">
-      <!-- Social Icons would go here -->
-    </div>
-    <p class="footer-tagline">Another Patrick Creation</p>
-    <p class="footer-copyright">&copy; 2025 Patrick Creations. All rights reserved.</p>
-  </footer>
-
   <script>
-    // Carousel functionality
-    const actors = document.querySelectorAll('.actor');
-    let currentIndex = 0;
+    // Sidebar
+    const hamburger = document.getElementById('hamburger');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarClose = document.getElementById('sidebarClose');
 
-    function updateCarousel() {
-      actors.forEach((actor, index) => {
-        actor.classList.remove('active', 'prev', 'next');
-        
-        if (index === currentIndex) {
-          actor.classList.add('active');
-        } else if (index === (currentIndex + 1) % actors.length) {
-          actor.classList.add('next');
-        } else {
-          actor.classList.add('prev');
-        }
-      });
+    hamburger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      sidebar.classList.add('open');
+      sidebar.setAttribute('aria-hidden','false');
+    });
+    sidebarClose.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      sidebar.setAttribute('aria-hidden','true');
+    });
+    document.addEventListener('click', (e) => {
+      if (sidebar.classList.contains('open') && !sidebar.contains(e.target) && e.target !== hamburger) {
+        sidebar.classList.remove('open');
+        sidebar.setAttribute('aria-hidden','true');
+      }
+    });
+
+    // Theme toggle with persistence
+    const themeSwitch = document.getElementById('themeSwitch');
+    function setTheme(dark){
+      if(dark){
+        document.documentElement.classList.add('dark-theme');
+        themeSwitch.classList.add('on');
+        themeSwitch.setAttribute('aria-pressed','true');
+        localStorage.setItem('theme','dark');
+      } else {
+        document.documentElement.classList.remove('dark-theme');
+        themeSwitch.classList.remove('on');
+        themeSwitch.setAttribute('aria-pressed','false');
+        localStorage.setItem('theme','light');
+      }
     }
+    themeSwitch.addEventListener('click', ()=> setTheme(!document.documentElement.classList.contains('dark-theme')));
+    // keyboard toggle
+    themeSwitch.addEventListener('keydown', (e)=> { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); themeSwitch.click(); }});
 
-    actors.forEach(actor => {
-      actor.addEventListener('click', () => {
-        if (actor.classList.contains('next')) {
-          currentIndex = (currentIndex + 1) % actors.length;
-        } else if (actor.classList.contains('prev')) {
-          currentIndex = (currentIndex - 1 + actors.length) % actors.length;
-        }
-        updateCarousel();
+    if(localStorage.getItem('theme') === 'dark') setTheme(true);
+
+    // Initialize hero swiper
+    const heroSwiper = new Swiper('.my-hero-swiper', {
+      loop:true,
+      autoplay:{delay:6000, disableOnInteraction:false},
+      navigation:{ nextEl:'.swiper-button-next', prevEl:'.swiper-button-prev' },
+      effect:'fade',
+      fadeEffect:{crossFade:true},
+      a11y:true
+    });
+
+    // Initialize cast swiper
+    const castSwiper = new Swiper('.cast-swiper', {
+      slidesPerView: 3,
+      spaceBetween: 18,
+      navigation:{ nextEl:'.cast-swiper .swiper-button-next', prevEl:'.cast-swiper .swiper-button-prev' },
+      breakpoints:{
+        320:{slidesPerView:1.1},
+        640:{slidesPerView:2},
+        1000:{slidesPerView:3}
+      }
+    });
+
+    // Stills click -> open hero slide-like modal (simple)
+    const stillCards = document.querySelectorAll('.still-card');
+    stillCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const src = card.getAttribute('data-src') || card.querySelector('img').src;
+        // open trailerModal as image viewer fallback
+        const trailerModal = document.getElementById('trailerModal');
+        const trailerFrame = document.getElementById('trailerFrame');
+        // use a simple image embed via data URL in iframe fallback (quick)
+        trailerFrame.src = src; // browsers can render images in iframes
+        trailerModal.style.opacity = '1';
+        trailerModal.style.pointerEvents = 'all';
+        trailerModal.setAttribute('aria-hidden','false');
       });
     });
 
-    // Synopsis expander
-    const expandBtn = document.querySelector('.expand-btn');
-    const fullSynopsis = document.querySelector('.full-synopsis');
+    // Trailer buttons — replace with your YouTube/Vimeo trailer URL when ready
+    const watchTrailerBtns = document.querySelectorAll('#watchTrailer, #watchTrailer2');
+    const trailerModal = document.getElementById('trailerModal');
+    const trailerFrame = document.getElementById('trailerFrame');
+    const closeTrailer = document.getElementById('closeTrailer');
 
+    watchTrailerBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Example: use a YouTube embed — replace with actual trailer url
+        trailerFrame.src = "https://www.youtube.com/embed/2LqzF5WauAw?autoplay=1";
+        trailerModal.style.opacity = '1';
+        trailerModal.style.pointerEvents = 'all';
+        trailerModal.setAttribute('aria-hidden','false');
+      });
+    });
+
+    closeTrailer.addEventListener('click', () => {
+      trailerFrame.src = "";
+      trailerModal.style.opacity = '0';
+      trailerModal.style.pointerEvents = 'none';
+      trailerModal.setAttribute('aria-hidden','true');
+    });
+
+    trailerModal.addEventListener('click', (e) => {
+      if(e.target === trailerModal) {
+        closeTrailer.click();
+      }
+    });
+
+    // Expand synopsis
+    const expandBtn = document.getElementById('expandBtn');
+    const excerpt = document.getElementById('excerpt');
     expandBtn.addEventListener('click', () => {
-      fullSynopsis.style.display = fullSynopsis.style.display === 'block' ? 'none' : 'block';
-      expandBtn.textContent = fullSynopsis.style.display === 'block' ? '▲' : '...';
+      const isOpen = excerpt.classList.toggle('open');
+      expandBtn.textContent = isOpen ? 'Show less' : 'Read more';
+      expandBtn.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    // keyboard accessibility for escape to close modals & sidebars
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape'){
+        // close sidebar
+        if(sidebar.classList.contains('open')){ sidebar.classList.remove('open'); sidebar.setAttribute('aria-hidden','true'); }
+        // close trailer
+        if(trailerModal.style.pointerEvents === 'all'){ closeTrailer.click(); }
+      }
     });
   </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 </body>
 </html>
