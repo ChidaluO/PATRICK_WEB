@@ -173,11 +173,15 @@
             color: var(--bg);
         }
         
-        /* Masonry grid */
+        /* Masonry grid - FIXED */
         .masonry-grid {
             padding: 0 1rem 2rem;
             max-width: 1400px;
             margin: 0 auto;
+        }
+        
+        .grid-sizer {
+            width: calc(33.333% - 1rem);
         }
         
         .grid-item {
@@ -191,13 +195,13 @@
         }
         
         @media (max-width: 1024px) {
-            .grid-item { 
+            .grid-sizer, .grid-item { 
                 width: calc(50% - 1rem); 
             }
         }
         
         @media (max-width: 640px) {
-            .grid-item { 
+            .grid-sizer, .grid-item { 
                 width: 100%; 
             }
         }
@@ -406,7 +410,7 @@
     <!-- Lookbook Hero -->
     <section class="lookbook-hero">
         <div class="text-center">
-            <h1 class="lookbook-title">THE LOOKBOOK</h1>
+            <h1 class="lookbook-title">THE WALL</h1>
             <p class="lookbook-subtitle">From cave walls to cinema screens, humanity has always stopped to admire images. It is how we remember, connect, and understand ourselves.</p>
         </div>
     </section>
@@ -421,8 +425,11 @@
         <button class="filter-btn" data-filter="concept-art">Concept Art</button>
     </div>
 
-    <!-- Masonry Grid -->
+    <!-- Masonry Grid - FIXED -->
     <div class="masonry-grid" id="lookbook-grid">
+        <!-- Grid sizer for masonry -->
+        <div class="grid-sizer"></div>
+        
         <!-- Item 1: Still from The Brilliant Boy -->
         <div class="grid-item" data-category="stills">
             <img src="https://res.cloudinary.com/dqbuevnsd/image/upload/f_auto,q_100/v1759572607/TBB.00_03_07_12.Still006_tokxck.jpg" alt="Still from The Brilliant Boy" class="grid-img">
@@ -635,20 +642,21 @@
 </main>
 
 <script>
-    // Initialize Masonry
+    // Initialize Masonry - FIXED
     document.addEventListener('DOMContentLoaded', function() {
         const grid = document.getElementById('lookbook-grid');
         
-        // Wait for images to load before initializing masonry
+        // Initialize masonry with proper configuration
+        const masonry = new Masonry(grid, {
+            itemSelector: '.grid-item',
+            columnWidth: '.grid-sizer',
+            percentPosition: true,
+            gutter: 16,
+            transitionDuration: '0.3s'
+        });
+        
+        // Wait for images to load and re-layout
         imagesLoaded(grid, function() {
-            const masonry = new Masonry(grid, {
-                itemSelector: '.grid-item',
-                columnWidth: '.grid-item',
-                percentPosition: true,
-                gutter: 16
-            });
-            
-            // Re-layout after all images are loaded
             masonry.layout();
         });
         
@@ -681,12 +689,6 @@
                 
                 // Re-layout masonry after filtering
                 setTimeout(() => {
-                    const masonry = new Masonry(grid, {
-                        itemSelector: '.grid-item',
-                        columnWidth: '.grid-item',
-                        percentPosition: true,
-                        gutter: 16
-                    });
                     masonry.layout();
                 }, 100);
             });
@@ -746,6 +748,11 @@
                 top: 0,
                 behavior: 'smooth'
             });
+        });
+        
+        // Window resize handler to re-layout masonry
+        window.addEventListener('resize', function() {
+            masonry.layout();
         });
     });
     
