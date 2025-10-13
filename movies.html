@@ -78,20 +78,6 @@
     .credits-card h4{font-family:Cinzel,serif;margin:0 0 .5rem;font-weight:400}
     .credits-line{margin:0.25rem 0;font-size:.95rem;opacity:.95}
 
-    /* Cast carousel */
-    .cast-section{padding:3rem 1rem 6rem;max-width:1200px;margin:0 auto;}
-    .cast-title{font-family:Cinzel,serif;font-size:1.25rem;margin-bottom:1rem}
-    .swiper .swiper-slide{display:flex;align-items:center;justify-content:center}
-    .cast-card{width:220px;border-radius:12px;overflow:hidden;background:var(--muted);position:relative;text-align:center;padding-bottom:1rem;box-shadow:0 14px 30px rgba(0,0,0,0.08)}
-    .cast-card img{width:100%;height:320px;object-fit:cover;display:block}
-    .cast-meta{padding:.75rem;font-size:.95rem}
-
-    /* CTA section */
-    .cta-wrap{padding:4rem 1rem;background:linear-gradient(90deg,var(--muted),transparent);display:flex;align-items:center;justify-content:center;}
-    .cta-box{max-width:900px;text-align:center;padding:2rem;border-radius:14px;background:linear-gradient(180deg,var(--bg),transparent);border:1px solid var(--accent-weak)}
-    .cta-box h3{font-family:Cinzel,serif;font-size:1.75rem;margin:0 0 0.75rem}
-    .cta-box p{opacity:.8;margin-bottom:1.25rem}
-
     /* Footer */
     footer{padding:3rem 1rem;text-align:center;border-top:1px solid var(--accent-weak);margin-top:3rem}
     footer img{height:56px;margin:0 auto 1rem;display:block;}
@@ -156,44 +142,17 @@
 
   <main>
 
-    <!-- HERO (Swiper) -->
+    <!-- HERO (Single image) -->
     <section class="hero">
-      <div class="swiper my-hero-swiper" aria-hidden="false">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide">
-            <img class="slide-img" src="https://source.unsplash.com/1600x900/?cinematic,landscape" alt="Hero still 1">
-            <div class="slide-overlay"></div>
+      <img class="slide-img" src="https://source.unsplash.com/1600x900/?cinematic,landscape" alt="Hero still">
+      <div class="slide-overlay"></div>
 
-            <div class="hero-content">
-              <h1>THE WAYWARD DEVICE</h1>
-              <div class="meta muted-small">Feature — 2025 • Director: Denis Villeneuve • 2h 18m</div>
-
-              <div class="hero-cta">
-                <button id="watchTrailer" class="btn" aria-controls="trailerModal">▶ Watch Trailer</button>
-                <a href="#experience" class="btn secondary">Experience</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="swiper-slide">
-            <img class="slide-img" src="https://source.unsplash.com/1600x900/?actor,portrait" alt="Hero still 2">
-            <div class="slide-overlay"></div>
-
-            <div class="hero-content">
-              <h1>A STORY ABOUT MEMORY</h1>
-              <div class="meta muted-small">Short film — Noir inspired • Premiere: 2025</div>
-
-              <div class="hero-cta">
-                <button id="watchTrailer2" class="btn" aria-controls="trailerModal">▶ Watch Trailer</button>
-                <a href="#experience" class="btn secondary">Book Screening</a>
-              </div>
-            </div>
-          </div>
+      <div class="hero-content">
+        <!-- No text content - only buttons -->
+        <div class="hero-cta">
+          <button id="watchTrailer" class="btn" aria-controls="trailerModal">▶ Watch Trailer</button>
+          <a href="#experience" class="btn secondary">Experience</a>
         </div>
-
-        <!-- navigation -->
-        <div class="swiper-button-prev" aria-label="Previous slide"></div>
-        <div class="swiper-button-next" aria-label="Next slide"></div>
       </div>
     </section>
 
@@ -203,19 +162,19 @@
       <div class="horizontal-scroll" id="stills-scroll">
         <div class="still-card" data-src="https://source.unsplash.com/1200x800/?movie,set">
           <img src="https://source.unsplash.com/800x600/?movie,set" alt="Still 1">
-          <div class="still-label">On Set — Day</div>
+          <div class="still-label"></div>
         </div>
         <div class="still-card" data-src="https://source.unsplash.com/1200x800/?actor,portrait">
           <img src="https://source.unsplash.com/800x600/?actor,portrait" alt="Still 2">
-          <div class="still-label">Quiet Moment</div>
+          <div class="still-label"></div>
         </div>
         <div class="still-card" data-src="https://source.unsplash.com/1200x800/?cinematic,lighting">
           <img src="https://source.unsplash.com/800x600/?cinematic,lighting" alt="Still 3">
-          <div class="still-label">Golden Hour</div>
+          <div class="still-label"></div>
         </div>
         <div class="still-card" data-src="https://source.unsplash.com/1200x800/?film,crew">
           <img src="https://source.unsplash.com/800x600/?film,crew" alt="Still 4">
-          <div class="still-label">Behind Scenes</div>
+          <div class="still-label"></div>
         </div>
       </div>
     </section>
@@ -227,9 +186,7 @@
         <div class="synopsis">
           <div class="excerpt" id="excerpt">
             <p>
-              In a world where dreams become reality, a reluctant hero must confront their past to save the future.
-              Archaeologist Dr. Elena Voss discovers fragments of an ancient device able to reshape memory and reality.
-              Pursued by a shadowy organization, she teams with a rogue physicist and must choose what the world will remember.
+              In a world that fails to see beyond his autism, a brilliant young boy's untimely death robs the world of his extraordinary genius, leaving his potential forever.
             </p>
           </div>
 
@@ -237,16 +194,17 @@
 
           <div class="mt-6">
             <h3 class="font-semibold mb-2">Where to watch</h3>
-            <p class="muted-small">Festival circuit • Select Cinemas • VOD coming soon</p>
+            <p class="muted-small">Festival circuit • YouTube • Private Screenings</p>
           </div>
 
           <div class="mt-6">
             <h3 class="font-semibold mb-2">Cast</h3>
             <ul class="list-disc pl-5">
-              <li><strong>Alexandra Daddario</strong> — Dr. Elena Voss</li>
-              <li><strong>John David Washington</strong> — Marcus Cole</li>
-              <li><strong>Gong Li</strong> — Minister Qiang</li>
-              <li><strong>Wagner Moura</strong> — Professor Rafael Ortiz</li>
+              <li><strong>Emmanuel Patrick</strong> — Nathaniel</li>
+              <li><strong>Fabulous Oyempemi</strong> — Professor Jakobs</li>
+              <li><strong>Micheal Bassey</strong> — Tim</li>
+              <li><strong>Dr. Lovette Patrick</strong> — Nathaniel's Mother</li>
+              <li><strong>Toke Tinde</strong> — Patricia</li>
             </ul>
           </div>
         </div>
@@ -254,76 +212,11 @@
 
       <aside class="credits-card" aria-labelledby="credits-heading">
         <h4 id="credits-heading">Credits</h4>
-        <div class="credits-line"><strong>Director</strong><div class="muted-small">Denis Villeneuve</div></div>
-        <div class="credits-line"><strong>Writer</strong><div class="muted-small">Eric Roth</div></div>
-        <div class="credits-line"><strong>Producer</strong><div class="muted-small">Patrick Creations</div></div>
+        <div class="credits-line"><strong>Director</strong><div class="muted-small">John Ekeh</div></div>
+        <div class="credits-line"><strong>Writer</strong><div class="muted-small">Emmanuel Patrick</div></div>
+        <div class="credits-line"><strong>Producer</strong><div class="muted-small">Zainab Yanusa</div></div>
         <div class="credits-line mt-3"><strong>Running time</strong><div class="muted-small">2h 18m</div></div>
       </aside>
-    </section>
-
-    <!-- Cast carousel -->
-    <section class="cast-section" aria-labelledby="cast-heading">
-      <h3 id="cast-heading" class="cast-title">Cast</h3>
-
-      <div class="swiper cast-swiper" aria-roledescription="carousel">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide">
-            <div class="cast-card" role="group" aria-label="Alexandra Daddario">
-              <img src="https://source.unsplash.com/400x600/?female,portrait" alt="Alexandra Daddario">
-              <div class="cast-meta">
-                <div class="font-semibold">Alexandra Daddario</div>
-                <div class="muted-small">Dr. Elena Voss</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="swiper-slide">
-            <div class="cast-card" role="group" aria-label="John David Washington">
-              <img src="https://source.unsplash.com/400x600/?male,portrait" alt="John David Washington">
-              <div class="cast-meta">
-                <div class="font-semibold">John David Washington</div>
-                <div class="muted-small">Marcus Cole</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="swiper-slide">
-            <div class="cast-card" role="group" aria-label="Gong Li">
-              <img src="https://source.unsplash.com/400x600/?asian,portrait" alt="Gong Li">
-              <div class="cast-meta">
-                <div class="font-semibold">Gong Li</div>
-                <div class="muted-small">Minister Qiang</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="swiper-slide">
-            <div class="cast-card" role="group" aria-label="Wagner Moura">
-              <img src="https://source.unsplash.com/400x600/?actor,portrait" alt="Wagner Moura">
-              <div class="cast-meta">
-                <div class="font-semibold">Wagner Moura</div>
-                <div class="muted-small">Professor Rafael Ortiz</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- navigation -->
-        <div class="swiper-button-prev" aria-label="Previous cast"></div>
-        <div class="swiper-button-next" aria-label="Next cast"></div>
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <section id="experience" class="cta-wrap">
-      <div class="cta-box">
-        <h3>Experience the film</h3>
-        <p>Join the screening list, book a private viewing, or bring the film to your festival.</p>
-        <div style="display:flex;gap:.75rem;justify-content:center;margin-top:1rem;">
-          <a href="mailto:emmanuelowochiopatrick@gmail.com" class="btn">Book Screening</a>
-          <a href="#" class="btn secondary">Festival Info</a>
-        </div>
-      </div>
     </section>
 
     <!-- Footer -->
@@ -391,28 +284,6 @@
 
     if(localStorage.getItem('theme') === 'dark') setTheme(true);
 
-    // Initialize hero swiper
-    const heroSwiper = new Swiper('.my-hero-swiper', {
-      loop:true,
-      autoplay:{delay:6000, disableOnInteraction:false},
-      navigation:{ nextEl:'.swiper-button-next', prevEl:'.swiper-button-prev' },
-      effect:'fade',
-      fadeEffect:{crossFade:true},
-      a11y:true
-    });
-
-    // Initialize cast swiper
-    const castSwiper = new Swiper('.cast-swiper', {
-      slidesPerView: 3,
-      spaceBetween: 18,
-      navigation:{ nextEl:'.cast-swiper .swiper-button-next', prevEl:'.cast-swiper .swiper-button-prev' },
-      breakpoints:{
-        320:{slidesPerView:1.1},
-        640:{slidesPerView:2},
-        1000:{slidesPerView:3}
-      }
-    });
-
     // Stills click -> open hero slide-like modal (simple)
     const stillCards = document.querySelectorAll('.still-card');
     stillCards.forEach(card => {
@@ -430,19 +301,17 @@
     });
 
     // Trailer buttons — replace with your YouTube/Vimeo trailer URL when ready
-    const watchTrailerBtns = document.querySelectorAll('#watchTrailer, #watchTrailer2');
+    const watchTrailerBtn = document.getElementById('watchTrailer');
     const trailerModal = document.getElementById('trailerModal');
     const trailerFrame = document.getElementById('trailerFrame');
     const closeTrailer = document.getElementById('closeTrailer');
 
-    watchTrailerBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        // Example: use a YouTube embed — replace with actual trailer url
-        trailerFrame.src = "https://www.youtube.com/embed/2LqzF5WauAw?autoplay=1";
-        trailerModal.style.opacity = '1';
-        trailerModal.style.pointerEvents = 'all';
-        trailerModal.setAttribute('aria-hidden','false');
-      });
+    watchTrailerBtn.addEventListener('click', () => {
+      // Example: use a YouTube embed — replace with actual trailer url
+      trailerFrame.src = "https://youtu.be/v_HiNI7AY9A?si=rSp2W7V5BOCDWdht";
+      trailerModal.style.opacity = '1';
+      trailerModal.style.pointerEvents = 'all';
+      trailerModal.setAttribute('aria-hidden','false');
     });
 
     closeTrailer.addEventListener('click', () => {
